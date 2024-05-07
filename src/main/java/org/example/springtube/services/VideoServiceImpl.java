@@ -1,0 +1,100 @@
+package org.example.springtube.services;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.example.springtube.models.Channel;
+import org.example.springtube.models.User;
+import org.example.springtube.models.Video;
+import org.example.springtube.repositories.UserRepository;
+import org.example.springtube.repositories.VideoRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Component
+public class VideoServiceImpl implements VideoService {
+
+    @Autowired
+    private VideoRepository videoRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Value("${storage.path}")
+    private String storagePath;
+    @Override
+    public Video findById(Long id) {
+        return videoRepository.findById(id).get();
+    }
+
+    @Override
+    public String saveFile(MultipartFile uploadFile, Principal principal) {
+        String email = principal.getName();
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Channel channel = user.getChannel();
+            if (channel != null) {
+                String extension = FilenameUtils.getExtension(uploadFile.getOriginalFilename());
+                String storageName = UUID.randomUUID().toString() + "." + extension;
+
+                Video video = Video.builder()
+                        .type(uploadFile.getContentType())
+                        .originalName(uploadFile.getOriginalFilename())
+                        .size(uploadFile.getSize())
+                        .storageFileName(storageName)
+                        .url(storagePath + "/" + storageName)  // Use Paths.get() to handle file paths
+                        .channel(channel)  // Associate the video with the user's channel
+                        .build();
+
+                try {
+                    String fullPath = Paths.get("src/main/resources", storagePath).toString();
+                    Files.createDirectories(Paths.get(fullPath)); //This will Create directories if they don't exist
+                    Files.copy(uploadFile.getInputStream(), Paths.get(fullPath, storageName));
+                } catch (IOException e) {
+                    throw new IllegalStateException("Failed to save file", e);
+                }
+
+                videoRepository.save(video);
+                return video.getStorageFileName();
+            }
+        }
+        throw new IllegalStateException("Failed to save file: User's channel not found");
+    }
+
+
+    @Override
+    public void writeFileToResponse(String fileName, HttpServletResponse response) {
+        Video fileInfo = videoRepository.findByStorageFileName(fileName);
+        if (fileInfo == null) {
+            throw new IllegalArgumentException("File not found with name: " + fileName);
+        }
+        response.setContentType(fileInfo.getType());
+        try {
+            IOUtils.copy(new FileInputStream("src/main/resources"+"/"+fileInfo.getUrl()), response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+    @Override
+    public Video findByStorageName(String storageName) {
+        return videoRepository.findByStorageFileName(storageName);
+    }
+
+    @Override
+    public List<Video> getUploadedVideos(Long userId) {
+        return videoRepository.findByUploaderId(userId);
+    }
+
+
+}

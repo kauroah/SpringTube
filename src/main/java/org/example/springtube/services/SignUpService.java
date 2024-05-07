@@ -1,0 +1,11 @@
+package org.example.springtube.services;
+
+import org.example.springtube.dto.UserForm;
+import org.example.springtube.models.User;
+
+public interface SignUpService {
+    void addUser(UserForm userForm);
+    boolean confirmUser(String confirmCode);
+    User getUserByUsername(String username);
+
+}

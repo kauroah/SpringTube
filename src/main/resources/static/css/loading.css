@@ -1,0 +1,26 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff; /* Set text color to white */
+    background: linear-gradient(to bottom, #45A29E 5%, #000000 45%); /* Adjust gradient here */
+    background-attachment: fixed; /* This ensures the gradient doesn't scroll with the content */
+    min-height: 100vh; /* Ensure at least the full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 80px; /* Increase font size */
+    margin-bottom: 20px; /* Increase margin */
+}
+
+.logo {
+    width: 300px; /* Increase the width of the logo */
+    height: auto; /* Maintain aspect ratio */
+}

@@ -1,0 +1,95 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    background: linear-gradient(to bottom, #45A29E 5%, #000000 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li:not(:last-child) {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.update-channel-form {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 20px;
+    width: 400px;
+}
+
+.update-channel-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.update-channel-form form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.update-channel-form form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    color: #000;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.update-channel-form form input[type="submit"] {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.update-channel-form form input[type="submit"]:hover {
+    background-color: #000000;
+}
+
+.update-channel-form form input[type="submit"]:active {
+    background-color: #45A29E;
+}
