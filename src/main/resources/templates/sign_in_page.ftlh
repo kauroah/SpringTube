@@ -19,9 +19,15 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <button type="submit">Sign In</button>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+            <a href="/forgotPassword">Forgot Password?</a>
+            <label class="form-check-label" for="remember-me">Remember Me</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
     </form>
-    <p class="signup-link">Don't have an account? <a href="/signUp">Sign Up</a></p>
+
+    <p class="signup-link mt-2">Don't have an account? <a href="/signUp">Sign Up</a></p>
 </div>
 <script src="/static/js/signin.js"></script>
 </body>

@@ -1,0 +1,41 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    background: linear-gradient(to bottom, #45A29E 5%, #000000 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    text-align: center;
+}
+
+header {
+    background-color: #000000;
+    padding: 20px;
+}
+
+header img {
+    max-width: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+h1 {
+    color: cadetblue;
+    margin-top: 20px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+a {
+    color: #45A29E;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #007bff;
+}

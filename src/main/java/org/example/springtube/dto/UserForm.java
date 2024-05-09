@@ -18,5 +18,4 @@ public class UserForm {
     private Integer age;
     private String phone;
 
-
 }

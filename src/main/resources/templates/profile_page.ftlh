@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <h1>Update Profile</h1>
-    <form action="/profile" method="post" th:object="${user}">
+    <form action="/profile/update" method="post" th:object="${user}">
         <div class="form-group">
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName" th:value="${user.firstName}" required>

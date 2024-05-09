@@ -15,6 +15,6 @@
 
 <img src="https://kpfu.ru//portal/docs/F_1313344075/02_logotip_3_stroki_cvetnoj.png" alt="">
 
-<h2><a href="http://localhost:3030/confirm/${confirm_code}">Click to verify!</a></h2>
+<h2><a href="http://localhost:3030/confirm/${token}">Click to verify!</a></h2>
 </body>
 </html>

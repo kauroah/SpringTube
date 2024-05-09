@@ -44,8 +44,8 @@ input[type="number"] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #fff;
-    color: #000;
+    background-color: #000000;
+    color: #ffffff;
 }
 
 button {
@@ -60,7 +60,7 @@ button {
 }
 
 button:hover {
-    background-color: #007bff;
+    background-color: #000000;
 }
 
 .error-message {

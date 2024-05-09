@@ -38,7 +38,7 @@ public class ProfileController {
         return "profile_page";
     }
 
-    @PostMapping("/profile")
+    @PostMapping("/profile/update")
     public String updateProfile(@Valid @ModelAttribute("user") User updatedUser, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             logger.log(Level.WARNING, "Validation errors occurred while updating profile.");

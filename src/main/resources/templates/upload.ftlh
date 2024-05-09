@@ -12,7 +12,7 @@
     <nav>
         <ul>
             <li><a href="/springtube">Home</a></li>
-            <li><a href="/profile">Profile</a></li>
+            <li><a href="/profile/update">Profile</a></li>
             <li><a href="/updateChannel/">Update</a></li>
             <li><a href="#">Logout</a></li>
         </ul>
@@ -29,7 +29,7 @@
     <ul>
         <#list videos as video>
             <video width="320" height="240" controls>
-                <source th:src="@{'/video?fileName=' + ${video.storageFileName}}" type="video/mp4">
+                <source th:src="@{'/files?fileName=' + ${video.storageFileName}}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <p th:text="${video.originalName}"></p>
@@ -47,7 +47,6 @@
 </form>
 <script src="/static/js/upload.js"></script>
 <script>
-    // Assuming you fetch the channels from your server
     fetch('/channel')
         .then(response => response.json())
         .then(channels => {

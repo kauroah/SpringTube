@@ -2,7 +2,6 @@ package org.example.springtube.controllers;
 
 import org.example.springtube.models.Channel;
 import org.example.springtube.models.User;
-import org.example.springtube.repositories.ChannelRepository;
 import org.example.springtube.repositories.UserRepository;
 import org.example.springtube.services.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.security.Principal;
 import java.util.Optional;

@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -24,15 +26,6 @@ import java.io.IOException;
 @RestController
 public class SpringTubeApplication implements ApplicationListener<ContextRefreshedEvent> {
 
-	@Autowired
-	private StreamingService service;
-
-	@GetMapping(value = "templates/{title}", produces = "video/mp4")
-	public Mono<Resource> getVideos(@PathVariable String title, @RequestHeader("Range") String range) {
-		System.out.println("range in bytes() : " + range);
-		return service.getVideo(title);
-	}
-
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
@@ -41,6 +34,8 @@ public class SpringTubeApplication implements ApplicationListener<ContextRefresh
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
+
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringTubeApplication.class, args);
