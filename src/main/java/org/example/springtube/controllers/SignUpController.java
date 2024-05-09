@@ -4,6 +4,7 @@ import org.example.springtube.dto.UserForm;
 import org.example.springtube.services.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 @Controller
@@ -18,8 +19,9 @@ public class SignUpController {
     }
 
     @PostMapping("/signUp")
-    public String SignUp(UserForm form) {
+    public String SignUp(UserForm form, Model model) {
         signUpService.addUser(form);
-        return "redirect:/confirm";
+        model.addAttribute("email", form.getEmail());
+        return "confirm_email";
     }
 }

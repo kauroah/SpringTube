@@ -1,4 +1,4 @@
-package org.example.springtube.security.config;
+package org.example.springtube.security.config;//package org.example.springtube.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,9 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+                auth.authenticationProvider(customAuthenticationProvider);
     }
 
     @Override
@@ -39,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/signIn", "/signUp", "/forgotPassword", "/resetPassword", "/static/**").permitAll()
                 .antMatchers("/springtube").permitAll()
-                .antMatchers("/**").authenticated()
-                .antMatchers("/profile", "/otherAuthenticatedEndpoint").authenticated()
+         //       .antMatchers("/**").authenticated()
+                .antMatchers("/profile", "/channel").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/signIn")
