@@ -1,3 +1,4 @@
+/* Body styles */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -8,66 +9,87 @@ body {
     min-height: 100vh; /* Ensure at least the full height of the viewport */
 }
 
-
-.container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 80px;
+/* Header Styles */
+header {
     background-color: #000000;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    padding: 10px 20px; /* Adjust padding as needed */
+    display: flex;
+    justify-content: space-between; /* Align items horizontally */
+    align-items: center; /* Center items vertically */
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #45A29E;
+.logo {
+    font-size: 24px; /* Adjust font size as needed */
+    font-weight: bold; /* Make the font bold */
 }
 
-.form-group {
-    margin-bottom: 20px;
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-label {
+nav ul li {
+    display: inline;
+}
+
+nav ul li:not(:last-child) {
+    margin-right: 20px; /* Adjust margin between buttons */
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Profile Page Styles */
+.profile-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.profile-details p {
+    margin: 10px 0;
+}
+
+/* Update Profile Form Styles */
+form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+form label {
     display: block;
-    text-align: center;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #45A29E;
+    margin-bottom: 10px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"] {
+form input[type="text"],
+form input[type="password"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    border: none;
     border-radius: 5px;
-    background-color: #000000;
-    color: #ffffff;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
+form input[type="submit"] {
+    padding: 10px 20px;
     background-color: #45A29E;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-button:hover {
+form input[type="submit"]:hover {
     background-color: #000000;
 }
 
-.error-message {
-    color: #ff0000;
-    font-size: 0.9em;
-}
-
-.error {
-    border-color: #ff0000 !important;
+form input[type="submit"]:active {
+    background-color: #45A29E;
 }

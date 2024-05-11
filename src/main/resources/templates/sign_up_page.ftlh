@@ -31,6 +31,10 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
         </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" name="phone" required>
+        </div>
         <button type="submit">Sign Up</button>
     </form>
     <p class="login-link">Already have an account? <a href="/signIn">Sign In</a></p>

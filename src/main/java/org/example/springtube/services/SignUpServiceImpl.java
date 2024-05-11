@@ -76,4 +76,9 @@ public class SignUpServiceImpl implements SignUpService {
             throw new RuntimeException("Error occurred while getting user by username.");
         }
     }
+
+    @Override
+    public  void updateUserProfile(String email, String firstName, String lastName, String phone, String password) {
+        userRepository.updateUserProfile(email, firstName, lastName, phone, passwordEncoder.encode(password));
+    }
 }

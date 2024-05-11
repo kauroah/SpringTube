@@ -104,7 +104,7 @@ public class MailServiceImpl implements MailService {
     private String mailFrom;
 
     private final Template confirmMailTemplate;
-    private final Template resetPasswordTemplate; // Template for reset password
+    private final Template resetPasswordTemplate;
 
     public MailServiceImpl() {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
@@ -114,7 +114,7 @@ public class MailServiceImpl implements MailService {
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         try {
             this.confirmMailTemplate = configuration.getTemplate("templates/confirm_mail.ftlh");
-            this.resetPasswordTemplate = configuration.getTemplate("templates/reset_password.ftlh"); // Load reset password template
+            this.resetPasswordTemplate = configuration.getTemplate("templates/reset_password.ftlh");
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -133,6 +133,7 @@ public class MailServiceImpl implements MailService {
         MimeMessagePreparator messagePreparator = prepareMessage(email, mailText, "Reset your password");
         javaMailSender.send(messagePreparator);
     }
+
 
     private MimeMessagePreparator prepareMessage(String email, String mailText, String subject) {
         return mimeMessage -> {

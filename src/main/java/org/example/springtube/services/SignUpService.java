@@ -7,5 +7,6 @@ public interface SignUpService {
     void addUser(UserForm userForm);
     boolean confirmUser(String confirmCode);
     User getUserByUsername(String username);
+    void updateUserProfile(String email, String firstName, String lastName, String phone, String password);
 
 }

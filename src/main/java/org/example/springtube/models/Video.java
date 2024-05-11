@@ -20,10 +20,7 @@ public class Video {
     private String url;
     private Long size;
     private String type;
-
-    @ManyToOne
-    @JoinColumn(name = "uploader_id")
-    private User uploader;
+    private String thumbnailUrl;
 
 
     @ManyToOne

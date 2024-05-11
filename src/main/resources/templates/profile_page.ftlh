@@ -3,37 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Profile</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/static/css/profile.css" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/static/css/profile.css">
 </head>
 <body>
-<div class="container">
-    <h1>Update Profile</h1>
-    <form action="/profile/update" method="post" th:object="${user}">
-        <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" th:value="${user.firstName}" required>
-        </div>
-        <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" th:value="${user.lastName}" required>
-        </div>
-        <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="text" id="phone" name="phone" th:value="${user.phone}">
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="text" id="password" name="password" th:value="${user.password}">
-        </div>
-        <button type="submit">Update Profile</button>
-    </form>
+<header>
+    <div class="logo">SpringTube</div>
+    <nav>
+        <ul>
+            <li><a href="/springtube">Home</a></li>
+            <li><a href="/updateChannel/">Update</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </nav>
+</header>
 
+<h2>User Profile</h2>
+<div class="profile-details">
+    <p><strong>First Name:</strong> ${user.firstName}</p>
+    <p><strong>Last Name:</strong> ${user.lastName}</p>
+    <p><strong>Email:</strong> ${user.email}</p>
+    <p><strong>Phone:</strong> ${user.phone}</p>
 </div>
-<script src="/static/js/profile.js"></script>
+
+<h2>Update Profile</h2>
+<form action="/profile/update" method="post">
+    <label for="firstName">First Name:</label><br>
+    <input type="text" id="firstName" name="firstName" value="${user.firstName}"><br><br>
+
+    <label for="lastName">Last Name:</label><br>
+    <input type="text" id="lastName" name="lastName" value="${user.lastName}"><br><br>
+
+    <label for="phone">Phone:</label><br>
+    <input type="text" id="phone" name="phone" value="${user.phone}"><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password"><br><br>
+
+    <input type="submit" value="Update Profile">
+</form>
+
 </body>
 </html>

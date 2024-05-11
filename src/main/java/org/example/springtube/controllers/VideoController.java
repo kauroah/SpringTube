@@ -2,18 +2,17 @@ package org.example.springtube.controllers;
 
 import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
-import org.example.springtube.repositories.ChannelRepository;
 import org.example.springtube.repositories.UserRepository;
+import org.example.springtube.services.SignUpService;
 import org.example.springtube.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.example.springtube.models.Channel;
-import javax.servlet.http.HttpServletResponse;
 
 import java.security.Principal;
 import java.util.List;
@@ -27,11 +26,14 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private SignUpService signUpService;
+
     @GetMapping("/channel")
     public String showUploadForm(Model model, Principal principal) {
         // Fetch the authenticated user's channel
         String email = principal.getName();
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<User> optionalUser = Optional.ofNullable(signUpService.getUserByUsername(email));
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             List<Video> userVideos = videoService.getUploadedVideos(user.getId());
@@ -43,21 +45,16 @@ public class VideoController {
     }
 
     @PostMapping("/channel")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, Video video, Model model, Principal principal) {
-        String email = principal.getName();
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            Channel channel = user.getChannel();
-            if (channel != null) {
-                video.setChannel(channel);
-                String storageFileName = videoService.saveFile(file, principal);
-                model.addAttribute("fileName", storageFileName);
-                return "redirect:/channel";
-            } else {
-                return "redirect:/error";
-            }
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("thumbnail") MultipartFile thumbnail,
+                                   Principal principal) {
+        // Validate the uploaded files
+        if (file.isEmpty() || thumbnail.isEmpty()) {
+            return String.valueOf(ResponseEntity.badRequest().body("Please select both video and thumbnail files."));
         }
-        return "redirect:/error";
+
+        videoService.saveFile(file, thumbnail, principal);
+
+        return "redirect:/channel";
     }
 }

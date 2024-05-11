@@ -31,44 +31,58 @@ public class VideoServiceImpl implements VideoService {
 
     @Value("${storage.path}")
     private String storagePath;
+
     @Override
     public Video findById(Long id) {
         return videoRepository.findById(id).get();
     }
 
+
+
+
     @Override
-    public String saveFile(MultipartFile uploadFile, Principal principal) {
+    public String saveFile(MultipartFile uploadFile, MultipartFile thumbnailFile, Principal principal) {
         String email = principal.getName();
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             Channel channel = user.getChannel();
             if (channel != null) {
-                String extension = FilenameUtils.getExtension(uploadFile.getOriginalFilename());
-                String storageName = UUID.randomUUID().toString() + "." + extension;
+                String videoExtension = FilenameUtils.getExtension(uploadFile.getOriginalFilename());
+                String thumbnailExtension = FilenameUtils.getExtension(thumbnailFile.getOriginalFilename());
+
+                String videoStorageName = UUID.randomUUID().toString() + "." + videoExtension;
+                String thumbnailStorageName = UUID.randomUUID().toString() + "_thumbnail." + thumbnailExtension;
+
+                try {
+                    String videoFullPath = Paths.get("src/main/resources", storagePath, videoStorageName).toString();
+                    String thumbnailFullPath = Paths.get("src/main/resources", storagePath, thumbnailStorageName).toString();
+
+                    Files.createDirectories(Paths.get(videoFullPath).getParent()); // Create directories if they don't exist
+                    Files.createDirectories(Paths.get(thumbnailFullPath).getParent()); // Create directories if they don't exist
+
+                    Files.copy(uploadFile.getInputStream(), Paths.get(videoFullPath));
+                    Files.copy(thumbnailFile.getInputStream(), Paths.get(thumbnailFullPath));
+                } catch (IOException e) {
+                    throw new IllegalStateException("Failed to save files", e);
+                }
 
                 Video video = Video.builder()
                         .type(uploadFile.getContentType())
                         .originalName(uploadFile.getOriginalFilename())
                         .size(uploadFile.getSize())
-                        .storageFileName(storageName)
-                        .url(storagePath + "/" + storageName)  // Use Paths.get() to handle file paths
-                        .channel(channel)  // Associate the video with the user's channel
+                        .storageFileName(videoStorageName)
+                        .url(storagePath + "/" + videoStorageName)
+                        .thumbnailUrl(storagePath + "/" + thumbnailStorageName) // Set the thumbnail URL
+                        .channel(channel)
                         .build();
 
-                try {
-                    String fullPath = Paths.get("src/main/resources", storagePath).toString();
-                    Files.createDirectories(Paths.get(fullPath)); //This will Create directories if they don't exist
-                    Files.copy(uploadFile.getInputStream(), Paths.get(fullPath, storageName));
-                } catch (IOException e) {
-                    throw new IllegalStateException("Failed to save file", e);
-                }
-
                 videoRepository.save(video);
+
                 return video.getStorageFileName();
             }
         }
-        throw new IllegalStateException("Failed to save file: User's channel not found");
+        throw new IllegalStateException("Failed to save files: User's channel not found");
     }
 
 
@@ -93,8 +107,35 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<Video> getUploadedVideos(Long userId) {
-        return videoRepository.findByUploaderId(userId);
+        return null;
     }
 
+
+
+    @Override
+    public void writeThumbnailToResponse(String fileName, HttpServletResponse response) {
+        Video thumbnailVideo = videoRepository.findByStorageFileName(fileName);
+        if (thumbnailVideo == null) {
+            throw new IllegalArgumentException("Thumbnail file not found with name: " + fileName);
+        }
+        response.setContentType("image/png"); // Assuming thumbnails are JPEG images
+        try {
+            // Read the thumbnail image from file and write it to the response output stream
+            IOUtils.copy(new FileInputStream("src/main/resources/" + thumbnailVideo.getThumbnailUrl()), response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error writing thumbnail to response", e);
+        }
+    }
+
+    @Override
+    public List<Video> getOtherVideos(Long mainVideoId) {
+        return videoRepository.findAllExceptId(mainVideoId);
+    }
+
+    @Override
+    public Video findByThumbnail(String thumbnailUrl) {
+        return videoRepository.findByThumbnailUrl(thumbnailUrl);
+    }
 
 }

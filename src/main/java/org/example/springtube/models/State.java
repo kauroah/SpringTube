@@ -1,5 +1,7 @@
-package org.example.springtube.models;
+    package org.example.springtube.models;
 
-public enum State {
-    NOT_CONFIRMED,CONFIRMED
-}
+    public enum State {
+        NOT_CONFIRMED,
+        CONFIRMED,
+        BLOCKED
+    }

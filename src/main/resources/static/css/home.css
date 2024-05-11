@@ -1,3 +1,4 @@
+/* Body styles */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -7,7 +8,6 @@ body {
     background-attachment: fixed; /* This ensures the gradient doesn't scroll with the content */
     min-height: 100vh; /* Ensure at least the full height of the viewport */
 }
-
 
 /* Search bar styles */
 .search-bar {
@@ -84,13 +84,12 @@ button:active {
     margin-right: 5px;
 }
 
-
 /*!* CSS styles *!*/
 .video-row {
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
 .video-item {
@@ -100,6 +99,29 @@ button:active {
     margin-bottom: 10px;
     max-width: calc(20% - 20px); /* Adjust maximum width based on the number of videos per row */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    position: relative; /* Set position relative for positioning children */
+}
+
+/* Video Container */
+.video-container {
+    position: relative; /* Position relative for positioning the thumbnail and video */
+    display: inline-block; /* Display as inline-block to align thumbnail and video horizontally */
+}
+
+/* Thumbnail */
+.video-container img.thumbnail {
+    position: absolute; /* Position absolute for overlaying */
+    top: 0; /* Align to top */
+    left: 0; /* Align to left */
+    width: 100%; /* Full width */
+    z-index: 1; /* Set higher z-index to appear on top */
+}
+
+/* Video */
+.video-container video {
+    position: relative; /* Set video position to relative */
+    width: 100%; /* Full width */
+    z-index: 0; /* Set lower z-index to stay behind thumbnail */
 }
 
 /* Header Styles */

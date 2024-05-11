@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -28,23 +29,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private CustomAuthenticationProvider customAuthenticationProvider;
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-                auth.authenticationProvider(customAuthenticationProvider);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/", "/signIn", "/signUp", "/forgotPassword", "/resetPassword", "/static/**").permitAll()
                 .antMatchers("/springtube").permitAll()
          //       .antMatchers("/**").authenticated()
-                .antMatchers("/profile", "/channel").authenticated()
+                .antMatchers("/profile", "/channel", "/admin/**").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/signIn")

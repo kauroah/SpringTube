@@ -30,9 +30,6 @@ public class User {
     private Channel channel;
 
 
-    @OneToMany(mappedBy = "uploader")
-    private Set<Video> uploadedVideos = new HashSet<>();
-
     @ManyToMany
     @JoinTable(
             name = "user_follows",

@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="/static/css/home.css">
 </head>
 
-
-
 <body>
 <form action="springtube" method="get">
     <header>
@@ -28,33 +26,33 @@
             <ul>
                 <li><a href="/springtube">Home</a></li>
                 <li><a href="/createChannel">Channel</a></li>
-                <li><a href="/signUp">Sign up</a></li>
-<#--                <li th:href="@{/profile}" th:if="${!isAuthenticated}">Profile</li>-->
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/signIn">Sign In</a></li>
 
             </ul>
         </nav>
     </header>
+
     <main>
-                <#list videos as video>
-                    <#if video_index % 5 == 0>
-                        <div class="video-row">
-                    </#if>
-<#--                    <div class="video-item">-->
-                    <div class="video-item" data-video-id="${video.storageFileName}">
-                        <div class="video-player">
-                            <video th:src="@{'/files/' + ${video.originalName}}" controls></video>
-<#--                            <video src="${video.id}" controls></video>-->
-                            <div class="video-actions">
-                                <button class="like-btn"><i class="fas fa-thumbs-up"></i> Like</button>
-                                <button class="dislike-btn"><i class="fas fa-thumbs-down"></i> Dislike</button>
-                            </div>
-                        </div>
-                        <h4>${video.originalName}</h4>
-                    </div>
-                    <#if (video_index + 1) % 5 == 0 || (video_index + 1) == videos?size>
-                        </div>
-                    </#if>
-                </#list>
+        <#list videos as video>
+            <#if video_index % 5 == 0>
+                <div class="video-row">
+            </#if>
+            <div class="video-item" data-video-id="${video.storageFileName}">
+                <div class="video-container">
+                    <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
+                    <video th:src="@{'/files/' + ${video.originalName}}" controls></video>
+                </div>
+                <div class="video-actions">
+                    <button class="like-btn"><i class="fas fa-thumbs-up"></i> Like</button>
+                    <button class="dislike-btn"><i class="fas fa-thumbs-down"></i> Dislike</button>
+                </div>
+                <h4>${video.originalName}</h4>
+            </div>
+            <#if (video_index + 1) % 5 == 0 || (video_index + 1) == videos?size>
+                </div>
+            </#if>
+        </#list>
     </main>
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>

@@ -8,13 +8,14 @@ import java.util.List;
 
 public interface VideoService {
 
-//    Mono<Resource> getVideo(String title);
     Video findById(Long id);
-  //  String saveFile(MultipartFile uploadFile, Video video);
 
-    String saveFile(MultipartFile uploadFile,  Principal principal);
-
+    String saveFile(MultipartFile uploadFile, MultipartFile thumbnailFile, Principal principal);
     void writeFileToResponse(String fileName, HttpServletResponse response);
     Video findByStorageName(String storageName);
     List<Video> getUploadedVideos(Long userId);
+    void writeThumbnailToResponse(String fileName, HttpServletResponse response);
+
+    List<Video> getOtherVideos(Long mainVideoId);
+    Video findByThumbnail(String thumbnailUrl);
 }

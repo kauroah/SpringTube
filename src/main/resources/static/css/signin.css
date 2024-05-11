@@ -8,7 +8,6 @@ body {
     min-height: 100vh; /* Ensure at least the full height of the viewport */
 }
 
-
 .container {
     max-width: 400px;
     margin: 50px auto;
@@ -83,4 +82,24 @@ button:hover {
 
 .error {
     border-color: #ff0000 !important;
+}
+
+.form-check {
+    display: flex;
+    align-items: stretch;
+
+}
+
+.forgot-password {
+    margin-left: 0px;
+
+}
+
+.forgot-password a {
+    color: #45A29E;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
 }

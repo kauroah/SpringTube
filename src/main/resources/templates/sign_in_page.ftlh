@@ -18,11 +18,13 @@
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
-            <a href="/forgotPassword">Forgot Password?</a>
-            <label class="form-check-label" for="remember-me">Remember Me</label>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                <label class="form-check-label" for="remember-me">Remember Me</label>
+            </div>
+            <div class="form-check forgot-password">
+                <a href="/forgotPassword">Forgot Password?</a>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Sign In</button>
     </form>
