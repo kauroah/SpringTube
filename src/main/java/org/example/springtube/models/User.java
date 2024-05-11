@@ -1,6 +1,8 @@
 package org.example.springtube.models;
 
 import lombok.*;
+import org.example.springtube.models.enums.Role;
+import org.example.springtube.models.enums.State;
 
 import javax.persistence.*;
 import java.util.HashSet;

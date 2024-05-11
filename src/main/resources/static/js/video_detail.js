@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function loadOtherVideos() {
     // Make an AJAX request to load other videos
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/api/otherVideos", true);
+    xhr.open("GET", "/api/otherVideos", true); // Make sure the URL is correct
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             // Process the response and display other videos
@@ -40,3 +40,5 @@ function displayOtherVideos(videos) {
         otherVideosContainer.appendChild(videoItem);
     });
 }
+
+

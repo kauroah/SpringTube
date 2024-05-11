@@ -1,8 +1,13 @@
 package org.example.springtube.services;
 
 import org.example.springtube.models.Video;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.core.io.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -18,4 +23,8 @@ public interface VideoService {
 
     List<Video> getOtherVideos(Long mainVideoId);
     Video findByThumbnail(String thumbnailUrl);
+
+
+  //  ResponseEntity<List<Video>> getAllOtherVideos();
+
 }

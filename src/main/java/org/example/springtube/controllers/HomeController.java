@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 public class HomeController {
@@ -33,11 +33,11 @@ public class HomeController {
     }
 
 
-
-    @GetMapping("/video_detail")
-    public String videoDetailPage() {
-        return "video_detail"; // Return the video_detail.html template
-    }
+//
+//    @GetMapping("/video_detail")
+//    public String videoDetailPage() {
+//        return "video_detail"; // Return the video_detail.html template
+//    }
 
 
     @GetMapping("/files/{file-name:.+}")

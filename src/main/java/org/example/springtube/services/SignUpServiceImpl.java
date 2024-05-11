@@ -1,8 +1,8 @@
 package org.example.springtube.services;
 
 import org.example.springtube.dto.UserForm;
-import org.example.springtube.models.Role;
-import org.example.springtube.models.State;
+import org.example.springtube.models.enums.Role;
+import org.example.springtube.models.enums.State;
 import org.example.springtube.models.User;
 import org.example.springtube.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

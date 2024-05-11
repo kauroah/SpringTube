@@ -8,13 +8,25 @@ import org.example.springtube.models.Video;
 import org.example.springtube.repositories.UserRepository;
 import org.example.springtube.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.core.io.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
@@ -137,5 +149,10 @@ public class VideoServiceImpl implements VideoService {
     public Video findByThumbnail(String thumbnailUrl) {
         return videoRepository.findByThumbnailUrl(thumbnailUrl);
     }
+
+//    @Override
+//    public ResponseEntity<List<Video>> getAllOtherVideos() {
+//        return ResponseEntity.ok(videoRepository.findAll());
+//    }
 
 }
