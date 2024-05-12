@@ -9,4 +9,7 @@ public interface SignUpService {
     User getUserByUsername(String username);
     void updateUserProfile(String email, String firstName, String lastName, String phone, String password);
 
+    User findById(Long userId);
+
+    User authenticateAndGetUserId(String email, String password);
 }

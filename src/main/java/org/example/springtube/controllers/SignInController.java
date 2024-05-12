@@ -1,36 +1,47 @@
 package org.example.springtube.controllers;
 
+import org.example.springtube.models.User;
+import org.example.springtube.services.SignUpService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class SignInController {
 
+    @Autowired
+    private SignUpService signUpService;
+
     // Endpoint to display the sign-in page
     @GetMapping("/signIn")
-    public ModelAndView getSignInPage(@RequestParam(value = "error", required = false) String error) {
-        ModelAndView modelAndView = new ModelAndView("sign_in_page");
+    public String getSignInPage(Model model, @RequestParam(value = "error", required = false) String error) {
         if (error != null) {
-            modelAndView.addObject("message", "Invalid username or password!");
+            model.addAttribute("errorMessage", "Invalid username or password!");
         }
-        return modelAndView;
+        return "sign_in_page";
     }
 
-    // This method is not necessarily needed unless you're handling logins directly
-    @PostMapping("/signIn")
+    // Endpoint to handle sign-in form submission
+    @PostMapping("/signInPage")
     public String signIn(@RequestParam("email") String email,
                          @RequestParam("password") String password,
-                         @RequestParam(value = "remember-me", required = false) boolean rememberMe) {
-        // Normally, Spring Security handles this automatically
-        // This method is just for understanding, you should let Spring Security handle POST to /signIn
+                         HttpSession session,
+                         RedirectAttributes redirectAttributes) {
 
-        // You would process the remember-me checkbox value here if you were manually handling authentication
-        // This is more for conceptual purposes; Spring Security should be configured to handle this as shown previously
-
-        return "redirect:/springtube"; // Redirect on success
+        User user = signUpService.authenticateAndGetUserId(email, password);
+        if (user != null) {
+            session.setAttribute("userId", user.getId());
+            System.out.println("USER ID: " + user.getId());
+            return "redirect:/springtube";
+        } else {
+            redirectAttributes.addAttribute("error", true);
+            return "redirect:/signIn";
+        }
     }
 }
-

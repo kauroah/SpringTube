@@ -31,15 +31,13 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Channel channel;
 
-
     @ManyToMany
     @JoinTable(
-            name = "user_follows",
-            joinColumns = @JoinColumn(name = "follower_id"),
-            inverseJoinColumns = @JoinColumn(name = "followed_id")
+            name = "user_follows_channel",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id")
     )
-    private Set<User> following = new HashSet<>();
-
+    private Set<Channel> subscribedChannels = new HashSet<>();
 
 
     @Enumerated(EnumType.STRING)

@@ -81,4 +81,24 @@ public class SignUpServiceImpl implements SignUpService {
     public  void updateUserProfile(String email, String firstName, String lastName, String phone, String password) {
         userRepository.updateUserProfile(email, firstName, lastName, phone, passwordEncoder.encode(password));
     }
+
+    @Override
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public User authenticateAndGetUserId(String email, String password) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        // Check if user exists and password matches
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return user;
+            }
+        }
+        return null; // Authentication failed
+    }
 }

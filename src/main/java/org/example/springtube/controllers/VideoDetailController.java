@@ -2,14 +2,14 @@ package org.example.springtube.controllers;
 
 import org.example.springtube.dto.ReactionDto;
 import org.example.springtube.models.Video;
-import org.example.springtube.services.ReactionService;
-import org.example.springtube.services.VideoService;
+import org.example.springtube.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,8 @@ public class VideoDetailController {
     private VideoService videoService;
     @Autowired
     private ReactionService reactionService;
-
+    @Autowired
+    private ChannelService channelService;
 
     @GetMapping("/play/{videoId}")
     public String showVideoDetailPage(@PathVariable Long videoId, Model model) {
@@ -42,6 +43,7 @@ public class VideoDetailController {
         model.addAttribute("reactionMap", reactionMap);
         model.addAttribute("oppositeReactionType", "dislike");
 
+
         return "video_detail";
     }
 
@@ -55,4 +57,32 @@ public class VideoDetailController {
 
         return ResponseEntity.ok("Reaction updated successfully");
     }
+
+    @GetMapping("/checkSubscription/{channelId}")
+    @ResponseBody
+    public Map<String, Boolean> checkSubscription(@PathVariable Long channelId, Principal principal) {
+        boolean subscribed = false;
+        if (principal != null) {
+            String email = principal.getName(); // Get the username (assuming it's the user's email)
+            subscribed = channelService.isUserSubscribedToChannel(channelId, email);
+        }
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("subscribed", subscribed);
+        return response;
+    }
+
+
+    @PostMapping("/subscribe/{channelId}")
+    public ResponseEntity<String> subscribeToChannel(@PathVariable Long channelId) {
+        channelService.subscribeToChannel(channelId);
+        return ResponseEntity.ok("Subscribed successfully");
+    }
+
+
+    @PostMapping("/unsubscribe/{channelId}")
+    public ResponseEntity<String> unsubscribeFromChannel(@PathVariable Long channelId) {
+        channelService.unsubscribeFromChannel(channelId);
+        return ResponseEntity.ok("Unsubscribed successfully");
+    }
+
 }

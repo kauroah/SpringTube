@@ -28,4 +28,30 @@ public class Channel {
 
     @OneToMany(mappedBy = "channel")
     private Set<Video> videos = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_follows_channel",
+            joinColumns = @JoinColumn(name = "channel_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> followers = new HashSet<>();
+
+//    @Column(name = "subscriber_count", nullable = false)
+    private Integer subscriberCount = 0;
+
+
+    public void subscribe() {
+        this.subscriberCount++;
+    }
+
+    public void unsubscribe() {
+        if (this.subscriberCount > 0) {
+            this.subscriberCount--;
+        }
+    }
 }
+
+
+
+
