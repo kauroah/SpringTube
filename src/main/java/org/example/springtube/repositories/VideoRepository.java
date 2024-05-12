@@ -1,8 +1,10 @@
 package org.example.springtube.repositories;
 
 
+import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

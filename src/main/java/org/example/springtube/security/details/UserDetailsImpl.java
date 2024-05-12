@@ -1,6 +1,7 @@
 package org.example.springtube.security.details;
 
 import org.example.springtube.models.User;
+import org.example.springtube.models.enums.State;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,6 +48,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getState() == State.CONFIRMED;
+    }
+
+    public Long getUserId() {
+        return user.getId();
     }
 }

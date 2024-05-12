@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/", "/signIn", "/signUp", "/forgotPassword", "/resetPassword", "/static/**").permitAll()
                 .antMatchers("/springtube").permitAll()
-               .antMatchers("/**").authenticated()
+            //   .antMatchers("/**").authenticated()
          ///       .antMatchers("/profile", "/channel", "/like","/dislike" ,"/admin/**").authenticated()
                 .and()
                 .formLogin()

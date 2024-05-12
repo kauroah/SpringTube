@@ -2,31 +2,21 @@ package org.example.springtube.services;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.example.springtube.dto.VideoDto;
 import org.example.springtube.models.Channel;
 import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
 import org.example.springtube.repositories.UserRepository;
 import org.example.springtube.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.core.io.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
@@ -153,6 +143,38 @@ public class VideoServiceImpl implements VideoService {
 //    @Override
 //    public ResponseEntity<List<Video>> getAllOtherVideos() {
 //        return ResponseEntity.ok(videoRepository.findAll());
+//    }
+
+
+
+//    @Override
+//    public VideoDto likeVideo(Long userId, Long videoId) {
+//        Video video = videoRepository.findById(videoId).orElseThrow(() -> new NotFoundException("Video not found"));
+//        video.setLikeCount(video.getLikeCount() + 1);
+//        videoRepository.save(video);
+//    }
+//
+//    @Override
+//    public VideoDto dislikeVideo(Long userId, Long videoId) {
+//        User user = userRepository.getOne(userId);
+//        Video video = videoRepository.getOne(videoId);
+//        if (videoRepository.existsByIdAndDislikesContaining(videoId, user)) {
+//            video.getDislikes().remove(user);
+//        } else {
+//            video.getDislikes().add(user);
+//        }
+//        videoRepository.save(video);
+//        return VideoDto.from(video);
+//    }
+//
+//
+//
+//    public void likeVideo(Long videoId) {
+//        videoRepository.incrementLikeCount(videoId);
+//    }
+//
+//    public void dislikeVideo(Long videoId) {
+//        videoRepository.incrementDislikeCount(videoId);
 //    }
 
 }

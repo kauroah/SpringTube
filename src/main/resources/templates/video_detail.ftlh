@@ -7,17 +7,21 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/css/home.css">
+        <link rel="stylesheet" href="/static/css/syles.css">
     </head>
     <body>
     <form action="/play/${mainVideo.id}" method="post">
         <div class="main-video-container">
             <h2>Main Video</h2>
-            <video id="mainVideoPlayer" controls autoplay>
 
+            <video id="mainVideoPlayer" controls autoplay width="900" height="240">
                 <source src="/files/${mainVideo.storageFileName}" type="${mainVideo.type}">
                 Your browser does not support the video tag.
             </video>
+            <div class="video-info">
+                <h2>${mainVideo.originalName}</h2>
+            </div>
+
             <div class="reaction-buttons">
                 <button class="reaction-button like-button" data-video-id="${mainVideo.id}" data-reaction="like">
                     <i class="fas fa-thumbs-up"></i> Like
@@ -28,6 +32,7 @@
             </div>
             <div class="subscribe-button">
                 <form id="subscribeForm" action="/subscribe/${mainVideo.channel.id}" method="post">
+                    <p>Channel: ${mainVideo.channel.name}</p>
                     <button type="submit" id="subscribeButton">Subscribe</button>
                 </form>
                 <form id="unsubscribeForm" action="/unsubscribe/${mainVideo.channel.id}" method="post" style="display: none;">
@@ -52,14 +57,13 @@
                         </div>
                     </div>
                 </#list>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-        <script src="/static/js/video_detail.js"></script>
+<#--        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>-->
+<#--        <script src="/static/js/video_detail.js"></script>-->
             </div>
         </div>
     </form>
 
     <script>
-
         document.addEventListener("DOMContentLoaded", function () {
             const reactionButtons = document.querySelectorAll(".reaction-button");
 
@@ -87,13 +91,6 @@
                             return response.json(); // Parse response as JSON
                         })
                         .then(data => {
-                            // Toggle like/dislike buttons
-                            const oppositeReactionType = reactionType === 'like' ? 'dislike' : 'like';
-                            const oppositeButton = document.querySelector(`.reaction-button[data-reaction=${oppositeReactionType}][data-video-id="${videoId}"]`);
-                            if (oppositeButton) {
-                                oppositeButton.classList.remove('active'); // Remove active class from opposite button
-                            }
-
                             // Toggle active class for the clicked button
                             button.classList.toggle('active');
 
@@ -106,6 +103,7 @@
                 });
             });
         });
+
 
         document.addEventListener("DOMContentLoaded", function () {
             const subscribeForm = document.getElementById("subscribeForm");
@@ -152,7 +150,7 @@
                     })
                     .then(data => {
                         console.log(data.message);
-                        updateUI(true); // Update UI to reflect subscription
+                        updateUI(true);
                     })
                     .catch(error => {
                         console.error("Error:", error);
@@ -176,7 +174,7 @@
                     })
                     .then(data => {
                         console.log(data.message);
-                        updateUI(false); // Update UI to reflect unsubscription
+                        updateUI(false);
                     })
                     .catch(error => {
                         console.error("Error:", error);

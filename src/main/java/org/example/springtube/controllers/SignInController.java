@@ -28,12 +28,12 @@ public class SignInController {
     }
 
     // Endpoint to handle sign-in form submission
-    @PostMapping("/signInPage")
+    @PostMapping("/signIn")
     public String signIn(@RequestParam("email") String email,
                          @RequestParam("password") String password,
                          HttpSession session,
                          RedirectAttributes redirectAttributes) {
-
+        System.out.println("11111111111111111111111111111111111111111111111111111111");
         User user = signUpService.authenticateAndGetUserId(email, password);
         if (user != null) {
             session.setAttribute("userId", user.getId());

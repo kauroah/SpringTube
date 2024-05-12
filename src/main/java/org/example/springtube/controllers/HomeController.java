@@ -44,7 +44,6 @@ public class HomeController {
     public void getFile(@PathVariable("file-name") String fileName, HttpServletResponse response){
         Video video = videoService.findByStorageName(fileName);
         if (video == null) {
-            // Handle file not found
             return;
         }
         if (fileName.endsWith("_thumbnail")) {
