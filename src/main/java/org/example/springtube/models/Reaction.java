@@ -23,6 +23,7 @@ public class Reaction {
     @JoinColumn(name = "video_id")
     private Video video;
 
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     private ReactionType reactionType;

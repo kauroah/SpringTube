@@ -15,4 +15,7 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
     int sumDislikesForVideo(Long videoId);
 
     Reaction findByVideoId(Long videoId);
+
+    Reaction findByVideoIdAndUserId(Long videoId, Long userId);
+
 }

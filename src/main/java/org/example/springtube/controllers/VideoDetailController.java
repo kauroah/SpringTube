@@ -2,9 +2,11 @@ package org.example.springtube.controllers;
 
 import org.example.springtube.dto.ReactionDto;
 import org.example.springtube.models.Video;
+import org.example.springtube.security.details.UserDetailsImpl;
 import org.example.springtube.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,11 +50,13 @@ public class VideoDetailController {
     }
 
     @PostMapping("/reaction")
-    public ResponseEntity<String> reactToVideo(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<String> reactToVideo(@RequestBody Map<String, String> requestBody, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long videoId = Long.valueOf(requestBody.get("videoId"));
         String reactionType = requestBody.get("reactionType");
+        Long userId = userDetails.getUserId(); // Assuming the UserDetails interface has a getUserId() method
+        System.out.println("USER ID: " + userId);
+        reactionService.toggleReaction(videoId, reactionType, userId);
 
-        reactionService.toggleReaction(videoId, reactionType);
         reactionService.updateReaction(videoId, reactionType);
 
         return ResponseEntity.ok("Reaction updated successfully");

@@ -30,4 +30,11 @@ public class Video {
 
     @OneToMany(mappedBy = "video")
     private Set<Comment> comments = new HashSet<>();
+
+//STILL TRYING TO COMPLETE THIS PART IT'S NOT IMPORTANT FOR NOW
+//    @Transient
+//    private Integer numberOfLikes;
+//
+//    @Transient
+//    private Integer numberOfDislikes;
 }

@@ -9,8 +9,11 @@ public interface ReactionService{
     ReactionDto getReactionStatsForVideo(Long videoId);
 
     @Transactional
-    void updateReaction(Long videoId, String reactionType);
+    void toggleReaction(Long videoId, String reactionType, Long userId);
 
     @Transactional
-    void toggleReaction(Long videoId, String reactionType);
+    void updateReaction(Long videoId, String reactionType);
+
+   // @Transactional
+ //   void toggleReaction(Long videoId, String reactionType);
 }
