@@ -41,29 +41,39 @@
             </div>
 
         </div>
-
-        <div class="other-videos-container">
-            <h2>Other Videos</h2>
-            <div class="column">
-                <#list otherVideos as video>
-                    <div class="col-md-4 mb-3">
-                        <div class="other-video-item" data-video-id="${video.id}">
-                            <div class="thumbnail">
-                                <img src="${video.thumbnailUrl}" alt="Thumbnail">
-                            </div>
-                            <div class="video-info">
-                                <h3>${video.originalName}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </#list>
-<#--        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>-->
-<#--        <script src="/static/js/video_detail.js"></script>-->
-            </div>
-        </div>
     </form>
 
-    <script>
+    <div class="other-videos-container">
+        <h2>Other Videos</h2>
+        <div class="column">
+            <#list otherVideos as video>
+                <div class="col-md-4 mb-3">
+                    <div class="other-video-item" data-video-id="${video.id}">
+                        <div class="thumbnail">
+                            <img src="${video.thumbnailUrl}" alt="Thumbnail">
+                        </div>
+                        <div class="video-info">
+                            <h3>${video.originalName}</h3>
+                        </div>
+                    </div>
+                </div>
+            </#list>
+        </div>
+    </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const otherVideoItems = document.querySelectorAll(".other-video-item");
+
+                otherVideoItems.forEach(item => {
+                    item.addEventListener("click", function () {
+                        const videoId = item.getAttribute("data-video-id");
+                        const videoUrl = `/play/${mainVideo.id}?videoId=${videoId}`;
+
+                        window.location.href = videoUrl;
+                    });
+                });
+            });
         document.addEventListener("DOMContentLoaded", function () {
             const reactionButtons = document.querySelectorAll(".reaction-button");
 
@@ -190,6 +200,22 @@
                 subscribeForm.style.display = "none";
                 unsubscribeForm.style.display = "block";
             }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const otherVideoItems = document.querySelectorAll(".other-video-item");
+
+            otherVideoItems.forEach(item => {
+                item.addEventListener("click", function () {
+                    const videoId = item.getAttribute("data-video-id");
+                    const video = document.querySelector(`video[data-video-id="${videoId}"]`);
+
+                    if (video) {
+                        video.play();
+                    }
+                });
+            });
         });
 
 
