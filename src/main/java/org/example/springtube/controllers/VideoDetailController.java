@@ -79,6 +79,7 @@ public class VideoDetailController {
     @PostMapping("/subscribe/{channelId}")
     public ResponseEntity<String> subscribeToChannel(@PathVariable Long channelId) {
         channelService.subscribeToChannel(channelId);
+        System.out.println("111111111111111111111111111111111111111111111111111111111");
         return ResponseEntity.ok("Subscribed successfully");
     }
 

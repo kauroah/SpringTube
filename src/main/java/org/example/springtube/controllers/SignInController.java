@@ -28,20 +28,21 @@ public class SignInController {
     }
 
     // Endpoint to handle sign-in form submission
-    @PostMapping("/signIn")
-    public String signIn(@RequestParam("email") String email,
-                         @RequestParam("password") String password,
-                         HttpSession session,
-                         RedirectAttributes redirectAttributes) {
-        System.out.println("11111111111111111111111111111111111111111111111111111111");
-        User user = signUpService.authenticateAndGetUserId(email, password);
-        if (user != null) {
-            session.setAttribute("userId", user.getId());
-            System.out.println("USER ID: " + user.getId());
-            return "redirect:/springtube";
-        } else {
-            redirectAttributes.addAttribute("error", true);
-            return "redirect:/signIn";
-        }
-    }
+// Endpoint to handle sign-in form submission
+//    @PostMapping("/signIn")
+//    public String signIn(@RequestParam("email") String email,
+//                         @RequestParam("password") String password,
+//                         HttpSession session,
+//                         RedirectAttributes redirectAttributes) {
+//        User user = signUpService.authenticateAndGetUserId(email, password);
+//        if (user != null) {
+//            session.setAttribute("userId", user.getId());
+//            return "redirect:/springtube";
+//        } else {
+//            // Add error message as a flash attribute
+//            redirectAttributes.addFlashAttribute("errorMessage", "Your email or password is not correct.");
+//            return "redirect:/error";
+//        }
+//    }
+
 }

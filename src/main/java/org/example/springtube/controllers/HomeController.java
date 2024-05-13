@@ -29,6 +29,14 @@ public class HomeController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = auth.isAuthenticated();
         model.addAttribute("isAuthenticated", isAuthenticated);
+
+
+        if (isAuthenticated) {
+            String email = auth.getName();
+            model.addAttribute("userId", email);
+            System.out.println("USER Email: " + email);
+        }
+
         return "home";
     }
 
