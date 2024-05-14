@@ -19,8 +19,10 @@
     <header>
         <div class="logo">SpringTube</div>
         <div class="search-bar">
-            <input type="text" placeholder="Search videos">
-            <i class="fas fa-search"></i>
+<#--            <input type="text" placeholder="Search videos">-->
+            <input type="text" name="query" placeholder="Search videos">
+            <button type="submit"><i class="fas fa-search"></i></button>
+<#--            <i class="fas fa-search"></i>-->
         </div>
         <nav>
             <ul>

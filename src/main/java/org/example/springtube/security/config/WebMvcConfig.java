@@ -13,4 +13,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/")
                 .addResourceLocations("classpath:/static/css/", "classpath:/static/js/");
     }
+
+
+//    @Override
+//    public void addFormatters(FormatterRegistry registry) {
+//        registry.addConverter(new StringToLocalDateConverter());
+//        registry.addConverter(new StringToLocalTimeConverter());
+//    }
 }

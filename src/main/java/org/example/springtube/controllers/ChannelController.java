@@ -2,8 +2,8 @@ package org.example.springtube.controllers;
 
 import org.example.springtube.models.Channel;
 import org.example.springtube.models.User;
-import org.example.springtube.repositories.UserRepository;
 import org.example.springtube.services.ChannelService;
+import org.example.springtube.services.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,15 +20,14 @@ public class ChannelController {
 
     @Autowired
     private ChannelService channelService;
-
     @Autowired
-    private UserRepository userRepository;
+    private SignUpService signUpService;
 
 
     @GetMapping("/createChannel")
     public String showChannelForm(Model model, Principal principal) {
         String email = principal.getName();
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<User> optionalUser = signUpService.findByEmail(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.getChannel() != null) {
@@ -43,7 +42,7 @@ public class ChannelController {
     public String createChannel(@ModelAttribute("channel") Channel channel, Principal principal) {
         String email = principal.getName();
         // Find the user by email
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<User> optionalUser = signUpService.findByEmail(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             channel.setUser(user);

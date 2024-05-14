@@ -2,7 +2,6 @@ package org.example.springtube.services;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.example.springtube.dto.VideoDto;
 import org.example.springtube.models.Channel;
 import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
@@ -38,8 +37,6 @@ public class VideoServiceImpl implements VideoService {
     public Video findById(Long id) {
         return videoRepository.findById(id).get();
     }
-
-
 
 
     @Override
@@ -102,6 +99,7 @@ public class VideoServiceImpl implements VideoService {
             throw new IllegalArgumentException(e);
         }
     }
+
     @Override
     public Video findByStorageName(String storageName) {
         return videoRepository.findByStorageFileName(storageName);
@@ -109,26 +107,27 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<Video> getUploadedVideos(Long userId) {
-        return null;
+        return videoRepository.findByUserId(userId);
     }
 
-
-
     @Override
-    public void writeThumbnailToResponse(String fileName, HttpServletResponse response) {
-        Video thumbnailVideo = videoRepository.findByStorageFileName(fileName);
+    public void writeThumbnailToResponse(String thumbnailUrl, HttpServletResponse response) {
+        Video thumbnailVideo = videoRepository.findByThumbnailUrl(thumbnailUrl);
         if (thumbnailVideo == null) {
-            throw new IllegalArgumentException("Thumbnail file not found with name: " + fileName);
+            throw new IllegalArgumentException("Thumbnail file not found with name: " + thumbnailUrl);
         }
         response.setContentType("image/png"); // Assuming thumbnails are JPEG images
         try {
             // Read the thumbnail image from file and write it to the response output stream
-            IOUtils.copy(new FileInputStream("src/main/resources/" + thumbnailVideo.getThumbnailUrl()), response.getOutputStream());
+            IOUtils.copy(new FileInputStream("src/main/resources" + "/" + thumbnailVideo.getThumbnailUrl()), response.getOutputStream());
             response.flushBuffer();
         } catch (IOException e) {
             throw new IllegalArgumentException("Error writing thumbnail to response", e);
         }
     }
+
+
+
 
     @Override
     public List<Video> getOtherVideos(Long mainVideoId) {
@@ -140,41 +139,22 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findByThumbnailUrl(thumbnailUrl);
     }
 
+    @Override
+    public List<Video> findAll() {
+        return videoRepository.findAll();
+    }
+
+    @Override
+    public List<Video> searchVideos(String query) {
+        if (query == null || query.isEmpty()) {
+            return videoRepository.findAll();
+        } else {
+            return videoRepository.findByOriginalNameContainingIgnoreCase(query); // Adjust the method name according to your repository
+        }
+    }
+
 //    @Override
-//    public ResponseEntity<List<Video>> getAllOtherVideos() {
-//        return ResponseEntity.ok(videoRepository.findAll());
+//    public List<Video> findByTitleContainingIgnoreCase(String query) {
+//        return videoRepository.findByTitleContainingIgnoreCase(query);
 //    }
-
-
-
-//    @Override
-//    public VideoDto likeVideo(Long userId, Long videoId) {
-//        Video video = videoRepository.findById(videoId).orElseThrow(() -> new NotFoundException("Video not found"));
-//        video.setLikeCount(video.getLikeCount() + 1);
-//        videoRepository.save(video);
-//    }
-//
-//    @Override
-//    public VideoDto dislikeVideo(Long userId, Long videoId) {
-//        User user = userRepository.getOne(userId);
-//        Video video = videoRepository.getOne(videoId);
-//        if (videoRepository.existsByIdAndDislikesContaining(videoId, user)) {
-//            video.getDislikes().remove(user);
-//        } else {
-//            video.getDislikes().add(user);
-//        }
-//        videoRepository.save(video);
-//        return VideoDto.from(video);
-//    }
-//
-//
-//
-//    public void likeVideo(Long videoId) {
-//        videoRepository.incrementLikeCount(videoId);
-//    }
-//
-//    public void dislikeVideo(Long videoId) {
-//        videoRepository.incrementDislikeCount(videoId);
-//    }
-
 }

@@ -1,9 +1,9 @@
 package org.example.springtube.controllers;
 
 import org.example.springtube.models.User;
-import org.example.springtube.repositories.PasswordResetTokenRepository;
-import org.example.springtube.repositories.UserRepository;
 import org.example.springtube.services.MailService;
+import org.example.springtube.services.PasswordService;
+import org.example.springtube.services.SignUpService;
 import org.example.springtube.tokens.PasswordResetToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,15 +19,14 @@ import java.util.UUID;
 
 @Controller
 public class PasswordController {
-
     @Autowired
-    private UserRepository userRepository;
+    private SignUpService signUpService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordResetTokenRepository tokenRepository;
+    private PasswordService passwordService;
 
     @Autowired
     private MailService mailService;
@@ -41,7 +40,7 @@ public class PasswordController {
 
     @PostMapping("/forgotPassword")
     public String forgotPassword(@RequestParam("email") String email, HttpServletRequest request) {
-        User user = userRepository.findByEmail(email)
+        User user = signUpService.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         String token = UUID.randomUUID().toString();
@@ -49,7 +48,7 @@ public class PasswordController {
         resetToken.setUser(user);
         resetToken.setToken(token);
         resetToken.setExpiryDate(LocalDateTime.now().plusHours(1));
-        tokenRepository.save(resetToken);
+        passwordService.save(resetToken);
 
         String resetUrl = request.getRequestURL().toString().replace("/forgotPassword", "/resetPassword?token=" + token);
         mailService.sendPasswordResetEmail(email, resetUrl);
@@ -64,7 +63,7 @@ public class PasswordController {
 
     @GetMapping("/resetPassword")
     public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
-        PasswordResetToken resetToken = tokenRepository.findByToken(token)
+        PasswordResetToken resetToken = passwordService.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
 
         if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
@@ -77,7 +76,7 @@ public class PasswordController {
 
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestParam("token") String token, @RequestParam("password") String password) {
-        PasswordResetToken resetToken = tokenRepository.findByToken(token)
+        PasswordResetToken resetToken = passwordService.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
 
         if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
@@ -86,9 +85,9 @@ public class PasswordController {
 
         User user = resetToken.getUser();
         user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
+        signUpService.save(user);
 
-        tokenRepository.delete(resetToken);
+        passwordService.delete(resetToken);
 
         return "redirect:/resetPasswordSuccess";
     }

@@ -22,6 +22,13 @@ public interface VideoService {
     void writeThumbnailToResponse(String fileName, HttpServletResponse response);
     List<Video> getOtherVideos(Long mainVideoId);
     Video findByThumbnail(String thumbnailUrl);
+    List<Video> findAll();
+
+    List<Video> searchVideos(String query);
+
+    //     List<Video> findByTitleContainingIgnoreCase(String query);
+
+    //  void writeFileAndThumbnailToResponse(String fileName, HttpServletResponse response);
 
 //    VideoDto likeVideo(Long userId, Long videoId);
 //

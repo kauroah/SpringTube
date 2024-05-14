@@ -101,4 +101,14 @@ public class SignUpServiceImpl implements SignUpService {
         }
         return null; // Authentication failed
     }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
 }

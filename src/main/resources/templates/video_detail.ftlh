@@ -68,13 +68,14 @@
                 otherVideoItems.forEach(item => {
                     item.addEventListener("click", function () {
                         const videoId = item.getAttribute("data-video-id");
-                        const videoUrl = `/play/${mainVideo.id}?videoId=${videoId}`;
+                        const videoUrl = `/play/` + videoId;
 
                         window.location.href = videoUrl;
                     });
                 });
             });
-        document.addEventListener("DOMContentLoaded", function () {
+
+            document.addEventListener("DOMContentLoaded", function () {
             const reactionButtons = document.querySelectorAll(".reaction-button");
 
             reactionButtons.forEach(button => {

@@ -20,9 +20,6 @@ import java.util.Optional;
 
 @Controller
 public class VideoController {
-
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private VideoService videoService;
 

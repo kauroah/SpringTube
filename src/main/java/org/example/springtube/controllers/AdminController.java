@@ -1,8 +1,6 @@
 package org.example.springtube.controllers;
 
-import org.example.springtube.dto.UserForm;
 import org.example.springtube.models.User;
-import org.example.springtube.services.MailService;
 import org.example.springtube.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

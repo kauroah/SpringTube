@@ -21,4 +21,9 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
 
 
     Video findByThumbnailUrl(String thumbnailUrl);
+
+    @Query("SELECT v FROM Video v WHERE v.channel.user.id = :userId")
+    List<Video> findByUserId(@Param("userId") Long userId);
+
+    List<Video> findByOriginalNameContainingIgnoreCase(String query);
 }

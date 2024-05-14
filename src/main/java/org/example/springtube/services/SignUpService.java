@@ -3,6 +3,8 @@ package org.example.springtube.services;
 import org.example.springtube.dto.UserForm;
 import org.example.springtube.models.User;
 
+import java.util.Optional;
+
 public interface SignUpService {
     void addUser(UserForm userForm);
     boolean confirmUser(String confirmCode);
@@ -12,4 +14,9 @@ public interface SignUpService {
     User findById(Long userId);
 
     User authenticateAndGetUserId(String email, String password);
+
+    Optional<User> findByEmail(String email);
+
+    void save(User user);
+
 }

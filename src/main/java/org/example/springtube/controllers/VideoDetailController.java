@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,14 @@ public class VideoDetailController {
 
         List<Video> otherVideos = videoService.getOtherVideos(videoId);
         model.addAttribute("otherVideos", otherVideos);
-        model.addAttribute("video", videoId);
+    //    model.addAttribute("video", videoId);
+
+        List<Long> otherVideoIds = new ArrayList<>();
+        for (Video video : otherVideos) {
+            otherVideoIds.add(video.getId());
+        }
+        model.addAttribute("otherVideoIds", otherVideoIds);
+
 
         // Fetch reaction stats for each video
         Map<Long, ReactionDto> reactionMap = new HashMap<>();
@@ -79,7 +87,6 @@ public class VideoDetailController {
     @PostMapping("/subscribe/{channelId}")
     public ResponseEntity<String> subscribeToChannel(@PathVariable Long channelId) {
         channelService.subscribeToChannel(channelId);
-        System.out.println("111111111111111111111111111111111111111111111111111111111");
         return ResponseEntity.ok("Subscribed successfully");
     }
 
