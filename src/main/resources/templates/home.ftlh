@@ -15,14 +15,12 @@
 </head>
 
 <body>
-<form action="springtube" method="get">
+<form action="/springtube" method="get" onsubmit="return onSubmit()">
     <header>
         <div class="logo">SpringTube</div>
         <div class="search-bar">
-<#--            <input type="text" placeholder="Search videos">-->
-            <input type="text" name="query" placeholder="Search videos">
+            <input id="searchInput" type="text" name="query" placeholder="Search videos">
             <button type="submit"><i class="fas fa-search"></i></button>
-<#--            <i class="fas fa-search"></i>-->
         </div>
         <nav>
             <ul>
@@ -44,15 +42,12 @@
             <div class="video-item" data-video-id="${video.id}">
                 <div class="video-container">
                     <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
-<#--                    <video th:src="@{'/files/' + ${video.originalName}}" controls></video>-->
                     <video controls>
                         <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
                 <div class="video-actions">
-<#--                    <button class="like-btn"><i class="fas fa-thumbs-up"></i> Like</button>-->
-<#--                    <button class="dislike-btn"><i class="fas fa-thumbs-down"></i> Dislike</button>-->
                 </div>
                 <h4>${video.originalName}</h4>
 
@@ -63,26 +58,18 @@
         </#list>
         </form>
     </main>
-
-<#--    <main>-->
-<#--        <form action="/springtube" method="get">-->
-<#--            <#list videos as video>-->
-<#--                <div class="video-item" data-video-id="${video.id}">-->
-<#--                    <div class="video-container">-->
-<#--                        <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">-->
-<#--                        <video controls>-->
-<#--                            <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/mp4">-->
-<#--                            Your browser does not support the video tag.-->
-<#--                        </video>-->
-<#--                    </div>-->
-<#--                    <h4>${video.originalName}</h4>-->
-<#--                </div>-->
-<#--            </#list>-->
-<#--        </form>-->
-<#--    </main>-->
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 <script src="/static/js/home.js"></script>
+<script>
+    function onSubmit() {
+        const query = document.getElementById('searchInput').value.trim();
+        if (query === '') {
+            return false; // Prevent form submission if the search input is empty
+        }
+        return true; // Allow form submission to continue
+    }
+</script>
 <script>
 </script>
 </body>
