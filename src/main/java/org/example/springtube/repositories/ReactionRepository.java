@@ -18,4 +18,5 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
 
     Reaction findByVideoIdAndUserId(Long videoId, Long userId);
 
+    void deleteByVideoId(Long videoId);
 }

@@ -5,11 +5,13 @@ import org.apache.commons.io.IOUtils;
 import org.example.springtube.models.Channel;
 import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
+import org.example.springtube.repositories.ReactionRepository;
 import org.example.springtube.repositories.UserRepository;
 import org.example.springtube.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +31,8 @@ public class VideoServiceImpl implements VideoService {
     private VideoRepository videoRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ReactionRepository reactionRepository;
 
     @Value("${storage.path}")
     private String storagePath;
@@ -151,6 +155,28 @@ public class VideoServiceImpl implements VideoService {
         } else {
             return videoRepository.findByOriginalNameContainingIgnoreCase(query); // Adjust the method name according to your repository
         }
+    }
+
+    @Override
+    public void deleteVideo(Long videoId) {
+        videoRepository.deleteById(videoId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteVideosByChannelId(Long channelId) {
+        videoRepository.deleteByChannelId(channelId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteReactionsByVideoId(Long videoId) {
+        reactionRepository.deleteByVideoId(videoId);
+    }
+
+    @Override
+    public List<Video> findVideosByChannelId(Long channelId) {
+        return videoRepository.findByChannelId(channelId);
     }
 
 //    @Override

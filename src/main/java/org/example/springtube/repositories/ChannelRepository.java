@@ -27,5 +27,5 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
     void updateChannel(@Param("id") Long id, @Param("name") String name);
 
     // Method to delete a channel by its ID
-    void deleteById(Long id);
+    void deleteChannelById(Long channelId);
 }

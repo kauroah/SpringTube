@@ -35,40 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
-//        http.authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/", "/signIn", "/signUp", "/forgotPassword", "/resetPassword", "/static/**").permitAll()
-//                .antMatchers("/springtube").permitAll()
-//            //   .antMatchers("/**").authenticated()
-//         ///       .antMatchers("/profile", "/channel", "/like","/dislike" ,"/admin/**").authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/signIn")
-//                .usernameParameter("email")
-//                .defaultSuccessUrl("/springtube", true)
-//                .failureUrl("/signIn?error")
-//                .permitAll()
-//                .and()
-//                .rememberMe()
-//                .key("uniqueAndSecret")
-//                .tokenValiditySeconds(86400) // 24 hours
-//                .tokenRepository(persistentTokenRepository())
-//                .and()
-//                .logout()
-//                .permitAll();
-//    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/signIn", "/signUp", "/forgotPassword", "/resetPassword", "/static/**").permitAll()
-                .antMatchers("/springtube").permitAll()
+                .antMatchers("/signOut").permitAll()
+                .antMatchers("/", "/signIn", "/signUp", "/signOut","/forgotPassword", "/resetPassword", "/static/**").permitAll()
+                .antMatchers("/springtube").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/signIn")
@@ -79,10 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .key("uniqueAndSecret")
-                .tokenValiditySeconds(86400) // 24 hours
+                .tokenValiditySeconds(86400)
                 .tokenRepository(persistentTokenRepository())
                 .and()
                 .logout()
+                .logoutSuccessUrl("/signIn")
                 .permitAll();
     }
 

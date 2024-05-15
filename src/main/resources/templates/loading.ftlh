@@ -10,6 +10,7 @@
 <div class="loading-container">
     <h1>SpringTube</h1>
     <img src="/static/images/logo.png" alt="SpringTube Logo" class="logo">
+    <p>Если вы не нашли то, что вы хотели то, мы поможем вам найти.</p>
 </div>
 <script>
     setTimeout(function() {

@@ -8,6 +8,23 @@ body {
     min-height: 100vh;
 }
 
+h1 {
+    text-align: center;
+}
+
+.page-titles {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+}
+
 .admin-container {
     margin: 20px;
     padding: 20px;
@@ -27,7 +44,14 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th{
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #45A29E;
+}
+
+td {
+    color: #ffffff;
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #45A29E;

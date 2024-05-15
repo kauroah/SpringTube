@@ -25,10 +25,19 @@
         <nav>
             <ul>
                 <li><a href="/springtube">Home</a></li>
-                <li><a href="/createChannel">Channel</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/signIn">Sign In</a></li>
-
+                <#if user.role == "ADMIN">
+                    <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+                </#if>
+                <#if user.role == "USER">
+                    <li><a href="/createChannel">Channel</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                </#if>
+                <#if user.role != "USER" && user.role != "ADMIN">
+                    <li><a href="/signIn">Sign In</a></li>
+                </#if>
+                <#if user.role == "USER" || user.role == "ADMIN">
+                    <li><a href="/signOut">Sign Out</a></li>
+                </#if>
             </ul>
         </nav>
     </header>
@@ -67,7 +76,7 @@
         if (query === '') {
             return false; // Prevent form submission if the search input is empty
         }
-        return true; // Allow form submission to continue
+        return true;
     }
 </script>
 <script>

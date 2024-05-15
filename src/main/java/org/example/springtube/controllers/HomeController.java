@@ -1,16 +1,17 @@
 package org.example.springtube.controllers;
+import org.example.springtube.dto.UserDto;
+import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
-import org.example.springtube.repositories.VideoRepository;
+import org.example.springtube.security.details.UserDetailsImpl;
+import org.example.springtube.services.UserService;
 import org.example.springtube.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
@@ -23,28 +24,15 @@ public class HomeController {
 
     @Autowired
     private VideoService videoService;
-
-
-//    @GetMapping("/springtube")
-//    public String home(Model model) {
-//        model.addAttribute("videos", videoService.findAll());
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        boolean isAuthenticated = auth.isAuthenticated();
-//        model.addAttribute("isAuthenticated", isAuthenticated);
-//
-//
-//        if (isAuthenticated) {
-//            String email = auth.getName();
-//            model.addAttribute("userId", email);
-//            System.out.println("USER Email: " + email);
-//        }
-//
-//        return "home";
-//    }
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("/springtube")
-    public String home(Model model, @RequestParam(required = false) String query) {
+    public String home(Model model, @RequestParam(required = false) String query, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userService.findUserById(userDetails.getUserId());
+        UserDto userDto = UserDto.from(user);
+        model.addAttribute("user", userDto);
         List<Video> videos = videoService.searchVideos(query);
         model.addAttribute("videos", videoService.findAll());
 
@@ -58,11 +46,6 @@ public class HomeController {
     }
 
 
-//
-//    @GetMapping("/video_detail")
-//    public String videoDetailPage() {
-//        return "video_detail"; // Return the video_detail.html template
-//    }
 
 
 //    @GetMapping("/files/{file-name:.+}")

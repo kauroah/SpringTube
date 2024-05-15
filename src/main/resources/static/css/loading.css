@@ -16,11 +16,28 @@ body {
 }
 
 h1 {
-    font-size: 80px; /* Increase font size */
-    margin-bottom: 20px; /* Increase margin */
+    font-size: 80px;
+    margin-bottom: 20px;
 }
 
 .logo {
-    width: 300px; /* Increase the width of the logo */
-    height: auto; /* Maintain aspect ratio */
+    width: 300px;
+    height: auto;
+}
+
+
+.loading-container p {
+    font-size: 25px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -42,6 +42,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private State state;
+//
+    @Enumerated(EnumType.STRING)
     private Role role;
+//    private String role;
+
     private String confirmCode;
 }

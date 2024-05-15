@@ -26,4 +26,9 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     List<Video> findByUserId(@Param("userId") Long userId);
 
     List<Video> findByOriginalNameContainingIgnoreCase(String query);
+
+    void deleteByChannelId(Long channelId);
+
+    List<Video> findByChannelId(Long channelId);
+
 }

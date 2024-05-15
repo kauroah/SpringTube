@@ -31,6 +31,7 @@ public class SignUpServiceImpl implements SignUpService {
     @Override
     public void addUser(UserForm userForm) {
         try {
+          //  String roleAsString = userForm.getRole().toString();
             User user = User.builder()
                     .email(userForm.getEmail())
                     .password(passwordEncoder.encode(userForm.getPassword()))
@@ -39,6 +40,7 @@ public class SignUpServiceImpl implements SignUpService {
                     .phone(userForm.getPhone())
                     .age(userForm.getAge())
                     .state(State.NOT_CONFIRMED)
+//                    .role(String.valueOf(roleAsString.equals("USER") ? Role.ADMIN : Role.USER))
                     .role(Role.USER)
                     .confirmCode(UUID.randomUUID().toString())
                     .build();

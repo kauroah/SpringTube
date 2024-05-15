@@ -26,6 +26,15 @@ public interface VideoService {
 
     List<Video> searchVideos(String query);
 
+    void deleteVideo(Long videoId);
+
+    void deleteVideosByChannelId(Long channelId);
+
+    void deleteReactionsByVideoId(Long videoId);
+
+    List<Video> findVideosByChannelId(Long channelId);
+
+
     //     List<Video> findByTitleContainingIgnoreCase(String query);
 
     //  void writeFileAndThumbnailToResponse(String fileName, HttpServletResponse response);

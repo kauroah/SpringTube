@@ -12,18 +12,14 @@
     <nav>
         <ul>
             <li><a href="/springtube">Home</a></li>
-            <li><a href="/updateChannel/">Update</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/signOut">Sign Out</a></li>
         </ul>
     </nav>
 </header>
 
 <h2>Welcome to ${channelName}</h2>
 
-<h2>Your Videos</h2>
-<div id="video-list">
 
-</div>
 
 <h2>Upload New Video</h2>
 <p>Channel: <span id="channel-name">${channelName}</span></p>
@@ -32,8 +28,25 @@
     <input type="file" id="file" name="file"><br><br>
     <label for="thumbnail">Choose a thumbnail:</label><br>
     <input type="file" id="thumbnail" name="thumbnail"><br><br>
-    <input type="submit" value="Upload">
+    <input type="submit" value="Upload" class="button">
 </form>
+
+
+<h2>Your Videos</h2>
+<div id="video-list" class="video-grid">
+    <#list videos as video>
+        <div class="video-item">
+            <video controls>
+                <source th:src="${video.url}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>${video.originalName}</p>
+        </div>
+    </#list>
+</div>
+
+
+
 <script src="/static/js/upload.js"></script>
 <script>
     fetch('/channel')
@@ -47,6 +60,36 @@
                 select.appendChild(option);
             });
         });
+
+
+
+    // Fetch videos using AJAX
+    function fetchVideos() {
+        fetch('/api/videos')
+            .then(response => response.json())
+            .then(videos => {
+                // Clear existing content in the video list
+                document.getElementById('video-list').innerHTML = '';
+
+                // Iterate over fetched videos and create HTML elements to display them
+                videos.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.classList.add('video-item');
+                    videoItem.innerHTML = `
+                    <h3>${video.originalName}</h3>
+                    <video src="${video.url}" controls></video>
+                `;
+                    document.getElementById('video-list').appendChild(videoItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching videos:', error);
+            });
+    }
+
+    window.addEventListener('load', fetchVideos);
+
+
 </script>
 </body>
 </html>

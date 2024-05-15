@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,17 @@
 <body>
 <div class="admin-container">
     <h1>Admin Dashboard</h1>
+    <div class="page-titles">
+        <div class="page-title">
+            <a href="/admin/channels">Channels</a>
+        </div>
+        <div class="page-title">
+            <a href="/admin/dashboard">Dashboard</a>
+        </div>
+        <div class="page-title">
+            <a href="/admin/videos">Videos</a>
+        </div>
+    </div>
     <table id="users">
         <tr>
             <th>ID</th>

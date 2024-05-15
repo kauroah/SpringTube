@@ -125,3 +125,43 @@ nav ul li a {
     color: #fff;
     text-decoration: none;
 }
+
+
+/* Add style to buttons */
+.button {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #000000;
+}
+
+.button:active {
+    background-color: #45A29E;
+}
+
+
+
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.video-item {
+    width: calc(20% - 20px); /* 20% width with 20px margin */
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .video-item {
+        width: calc(33.33% - 20px); /* Adjust for smaller screens */
+    }
+}
