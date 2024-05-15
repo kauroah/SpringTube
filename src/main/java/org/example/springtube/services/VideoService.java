@@ -1,21 +1,16 @@
 package org.example.springtube.services;
 
-import org.example.springtube.dto.VideoDto;
 import org.example.springtube.models.Video;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-
-import org.springframework.core.io.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 public interface VideoService {
 
     Video findById(Long id);
-    String saveFile(MultipartFile uploadFile, MultipartFile thumbnailFile, Principal principal);
+    String saveFile(MultipartFile uploadFile, MultipartFile thumbnailFile, Set<String> categoryNames, Principal principal);
     void writeFileToResponse(String fileName, HttpServletResponse response);
     Video findByStorageName(String storageName);
     List<Video> getUploadedVideos(Long userId);

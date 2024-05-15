@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class VideoController {
@@ -46,13 +49,18 @@ public class VideoController {
     @PostMapping("/channel")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("thumbnail") MultipartFile thumbnail,
+                                   @RequestParam Set<String> categories,
                                    Principal principal) {
 
         if (file.isEmpty() || thumbnail.isEmpty()) {
             return String.valueOf(ResponseEntity.badRequest().body("Please select both video and thumbnail files."));
         }
 
-        videoService.saveFile(file, thumbnail, principal);
+//        Set<String> categorySet = Arrays.stream(categories.split(","))
+//                .map(String::trim)
+//                .collect(Collectors.toSet());
+
+        videoService.saveFile(file, thumbnail, categories,principal);
 
         return "redirect:/channel";
     }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>My Videos</title>
-    <link rel="stylesheet" href="/static/css/upload.css">
+    <link rel="stylesheet" href="/static/css/home.css">
 </head>
 <body>
 <header>
@@ -27,25 +27,36 @@
 <p>Channel: <span id="channel-name">${channelName}</span></p>
 <form id="upload-form" action="/channel" method="post" enctype="multipart/form-data">
     <label for="file">Choose a video file:</label><br>
-    <input type="file" id="file" name="file"><br><br>
+    <input type="file" id="file" name="file" required><br><br>
+
+
     <label for="thumbnail">Choose a thumbnail:</label><br>
-    <input type="file" id="thumbnail" name="thumbnail"><br><br>
+    <input type="file" id="thumbnail" name="thumbnail" required><br><br>
+
+    <label for="categories">Categories (comma-separated):</label><br>
+    <input type="text" id="categories" name="categories" placeholder="e.g. Music, Sport, Education" required><br><br>
     <input type="submit" value="Upload" class="button">
 </form>
 
 
-<h2>Your Videos</h2>
+<h2>My Videos</h2>
 <div id="video-list" class="video-grid">
     <#list videos as video>
-        <div class="video-item">
+    <#if video_index % 5 == 0>
+    <div class="video-row">
+        </#if>
+        <div class="video-item" data-video-id="${video.id}">
+            <div class="video-container">
             <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
             <video controls>
-                <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/mp4">
+                <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/webm">
                 Your browser does not support the video tag.
             </video>
+            </div>
             <p>${video.originalName}</p>
         </div>
     </#list>
+</div>
 </div>
 
 

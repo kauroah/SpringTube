@@ -2,9 +2,11 @@ package org.example.springtube.services;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.example.springtube.models.Category;
 import org.example.springtube.models.Channel;
 import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
+import org.example.springtube.repositories.CategoryRepository;
 import org.example.springtube.repositories.ReactionRepository;
 import org.example.springtube.repositories.UserRepository;
 import org.example.springtube.repositories.VideoRepository;
@@ -20,9 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class VideoServiceImpl implements VideoService {
@@ -33,6 +33,8 @@ public class VideoServiceImpl implements VideoService {
     private UserRepository userRepository;
     @Autowired
     private ReactionRepository reactionRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Value("${storage.path}")
     private String storagePath;
@@ -44,7 +46,7 @@ public class VideoServiceImpl implements VideoService {
 
 
     @Override
-    public String saveFile(MultipartFile uploadFile, MultipartFile thumbnailFile, Principal principal) {
+    public String saveFile(MultipartFile uploadFile, MultipartFile thumbnailFile, Set<String> categoryNames, Principal principal) {
         String email = principal.getName();
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
@@ -70,6 +72,18 @@ public class VideoServiceImpl implements VideoService {
                     throw new IllegalStateException("Failed to save files", e);
                 }
 
+                // Find or create categories
+                Set<Category> categories = new HashSet<>();
+                for (String name : categoryNames) {
+                    Category category = categoryRepository.findByName(name);
+                    if (category == null) {
+                        category = new Category();
+                        category.setName(name);
+                        category = categoryRepository.save(category);
+                    }
+                    categories.add(category);
+                }
+
                 Video video = Video.builder()
                         .type(uploadFile.getContentType())
                         .originalName(uploadFile.getOriginalFilename())
@@ -78,6 +92,7 @@ public class VideoServiceImpl implements VideoService {
                         .url(storagePath + "/" + videoStorageName)
                         .thumbnailUrl(storagePath + "/" + thumbnailStorageName) // Set the thumbnail URL
                         .channel(channel)
+                        .categories(categories) // Assign categories to the video
                         .build();
 
                 videoRepository.save(video);
@@ -87,6 +102,7 @@ public class VideoServiceImpl implements VideoService {
         }
         throw new IllegalStateException("Failed to save files: User's channel not found");
     }
+
 
 
     @Override

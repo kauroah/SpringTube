@@ -52,7 +52,7 @@
                 <div class="video-container">
                     <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
                     <video controls>
-                        <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/mp4">
+                        <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/webm">
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -74,7 +74,7 @@
     function onSubmit() {
         const query = document.getElementById('searchInput').value.trim();
         if (query === '') {
-            return false; // Prevent form submission if the search input is empty
+            return false;
         }
         return true;
     }

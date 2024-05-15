@@ -187,3 +187,49 @@ nav ul li a {
     max-width: 100%;
     margin-bottom: 10px; /* Adjust the value based on the video width */
 }
+
+
+/* Button styles */
+.button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+/* Upload button */
+#upload-form input[type="submit"] {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#upload-form input[type="submit"]:hover {
+    background-color: #000000;
+}
+
+#upload-form input[type="submit"]:active {
+    background-color: #45A29E;
+}
+
+/* Browse button */
+#upload-form input[type="file"] {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#upload-form input[type="file"]:hover {
+    background-color: #000000;
+}
+
+#upload-form input[type="file"]:active {
+    background-color: #45A29E;
+}

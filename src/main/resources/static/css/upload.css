@@ -146,9 +146,6 @@ nav ul li a {
     background-color: #45A29E;
 }
 
-
-
-
 .video-grid {
     display: flex;
     flex-wrap: wrap;
@@ -165,3 +162,25 @@ nav ul li a {
         width: calc(33.33% - 20px); /* Adjust for smaller screens */
     }
 }
+
+
+/* CSS for thumbnails */
+/*.thumbnail {*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*    max-height: 150px; !* Set maximum height for thumbnails *!*/
+/*    object-fit: cover; !* Ensure the thumbnail covers the entire container *!*/
+/*}*/
+
+/*!* CSS for video items *!*/
+/*.video-item {*/
+/*    width: 200px; !* Set a fixed width for video items *!*/
+/*    margin: 10px; !* Add margin for spacing *!*/
+/*}*/
+
+/*!* Ensure videos and thumbnails are displayed inline *!*/
+/*.video-item video,*/
+/*.video-item img {*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*}*/

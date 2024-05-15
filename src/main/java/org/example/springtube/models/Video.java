@@ -32,10 +32,14 @@ public class Video {
     @OneToMany(mappedBy = "video")
     private List<Comment> comments;
 
-//STILL TRYING TO COMPLETE THIS PART IT'S NOT IMPORTANT FOR NOW
-//    @Transient
-//    private Integer numberOfLikes;
-//
-//    @Transient
-//    private Integer numberOfDislikes;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "video_categories",
+            joinColumns = @JoinColumn(name = "video_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
+
+
 }

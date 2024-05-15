@@ -5,7 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Data
 public class Category {
@@ -15,11 +17,6 @@ public class Category {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "video_categories",
-            joinColumns = @JoinColumn(name = "video_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Category> categories = new HashSet<>();
+    @ManyToMany(mappedBy = "categories")
+    private Set<Video> videos = new HashSet<>();
 }
