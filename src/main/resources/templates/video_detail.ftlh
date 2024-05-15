@@ -1,5 +1,5 @@
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +7,30 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/css/syles.css">
+        <link rel="stylesheet" href="/static/css/home.css">
     </head>
     <body>
+
+    <header>
+        <div class="logo">SpringTube</div>
+
+        <div class="search-bar">
+            <form action="/springtube" method="get" onsubmit="return onSubmit()">
+            <input id="searchInput" type="text" name="query" placeholder="Search videos">
+            <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/springtube">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/signOut">Sign Out</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <form action="/play/${mainVideo.id}" method="post">
         <div class="main-video-container">
-            <h2>Main Video</h2>
-
             <video id="mainVideoPlayer" controls autoplay width="900" height="240">
                 <source src="/files/${mainVideo.storageFileName}" type="${mainVideo.type}">
                 Your browser does not support the video tag.
@@ -40,11 +57,11 @@
                 </form>
             </div>
 
+
         </div>
     </form>
 
     <div class="other-videos-container">
-        <h2>Other Videos</h2>
         <div class="column">
             <#list otherVideos as video>
                 <div class="col-md-4 mb-3">
@@ -60,166 +77,6 @@
             </#list>
         </div>
     </div>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const otherVideoItems = document.querySelectorAll(".other-video-item");
-
-                otherVideoItems.forEach(item => {
-                    item.addEventListener("click", function () {
-                        const videoId = item.getAttribute("data-video-id");
-                        const videoUrl = `/play/` + videoId;
-
-                        window.location.href = videoUrl;
-                    });
-                });
-            });
-
-            document.addEventListener("DOMContentLoaded", function () {
-            const reactionButtons = document.querySelectorAll(".reaction-button");
-
-            reactionButtons.forEach(button => {
-                button.addEventListener("click", function (event) {
-                    event.preventDefault();
-
-                    const videoId = button.getAttribute("data-video-id");
-                    const reactionType = button.getAttribute("data-reaction");
-
-                    fetch("/reaction", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            videoId: videoId,
-                            reactionType: reactionType
-                        })
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error("Failed to update reaction");
-                            }
-                            return response.json(); // Parse response as JSON
-                        })
-                        .then(data => {
-                            // Toggle active class for the clicked button
-                            button.classList.toggle('active');
-
-                            // Optionally, you can update UI to reflect the reaction change
-                            console.log(data);
-                        })
-                        .catch(error => {
-                            console.error("Error:", error);
-                        });
-                });
-            });
-        });
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const subscribeForm = document.getElementById("subscribeForm");
-            const unsubscribeForm = document.getElementById("unsubscribeForm");
-            const subscribeButton = document.getElementById("subscribeButton");
-            const unsubscribeButton = document.getElementById("unsubscribeButton");
-
-            console.log("Subscribe button:", subscribeButton);
-            console.log("Unsubscribe button:", unsubscribeButton);
-
-            // Function to update UI based on subscription status
-            function updateUI(subscribed) {
-                if (subscribed) {
-                    showUnsubscribeForm();
-                } else {
-                    showSubscribeForm();
-                }
-            }
-
-            // Check if user is subscribed or not
-            fetch(`/checkSubscription/${mainVideo.channel.id}`)
-                .then(response => response.json())
-                .then(data => {
-                    updateUI(data.subscribed); // Update UI based on subscription status
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-
-            // Subscribe button click event
-            subscribeButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
-                fetch(`/subscribe/${mainVideo.channel.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        }
-                        throw new Error('Failed to subscribe');
-                    })
-                    .then(data => {
-                        console.log(data.message);
-                        updateUI(true);
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                    });
-            });
-
-            // Unsubscribe button click event
-            unsubscribeButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
-                fetch(`/unsubscribe/${mainVideo.channel.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        }
-                        throw new Error('Failed to unsubscribe');
-                    })
-                    .then(data => {
-                        console.log(data.message);
-                        updateUI(false);
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                    });
-            });
-
-            function showSubscribeForm() {
-                subscribeForm.style.display = "block";
-                unsubscribeForm.style.display = "none";
-            }
-
-            function showUnsubscribeForm() {
-                subscribeForm.style.display = "none";
-                unsubscribeForm.style.display = "block";
-            }
-        });
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const otherVideoItems = document.querySelectorAll(".other-video-item");
-
-            otherVideoItems.forEach(item => {
-                item.addEventListener("click", function () {
-                    const videoId = item.getAttribute("data-video-id");
-                    const video = document.querySelector(`video[data-video-id="${videoId}"]`);
-
-                    if (video) {
-                        video.play();
-                    }
-                });
-            });
-        });
-
-
-    </script>
+    <script src="/static/js/video_detail.js"></script>
     </body>
     </html>

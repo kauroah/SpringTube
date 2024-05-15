@@ -56,4 +56,23 @@ public class VideoController {
 
         return "redirect:/channel";
     }
+
+
+
+//    @PostMapping("/channel")
+//    public ResponseEntity<String> uploadVideo(@RequestParam("video") MultipartFile videoFile,
+//                                              @RequestParam("thumbnail") MultipartFile thumbnailFile) {
+//        // Process and save the uploaded video and its thumbnail
+//        // Replace 'videoUrl' and 'thumbnailUrl' with the actual URLs of the saved files
+//        String videoUrl = "/path/to/uploaded/video.mp4";
+//        String thumbnailUrl = "/path/to/uploaded/thumbnail.png";
+//
+//        // Return the URLs as a JSON response
+//        JSONObject response = new JSONObject();
+//        response.put("videoUrl", videoUrl);
+//        response.put("thumbnailUrl", thumbnailUrl);
+//
+//        return ResponseEntity.ok(response.toString());
+//    }
+
 }

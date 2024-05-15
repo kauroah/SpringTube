@@ -3,9 +3,11 @@ package org.example.springtube.models;
 import lombok.*;
 
 import javax.persistence.*;
-
-@Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

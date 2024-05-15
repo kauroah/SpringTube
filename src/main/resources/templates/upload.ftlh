@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>My Videos</title>
     <link rel="stylesheet" href="/static/css/upload.css">
 </head>
@@ -12,6 +13,7 @@
     <nav>
         <ul>
             <li><a href="/springtube">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
             <li><a href="/signOut">Sign Out</a></li>
         </ul>
     </nav>
@@ -36,8 +38,9 @@
 <div id="video-list" class="video-grid">
     <#list videos as video>
         <div class="video-item">
+            <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
             <video controls>
-                <source th:src="${video.url}" type="video/mp4">
+                <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <p>${video.originalName}</p>
@@ -46,50 +49,42 @@
 </div>
 
 
-
 <script src="/static/js/upload.js"></script>
 <script>
-    fetch('/channel')
-        .then(response => response.json())
-        .then(channels => {
-            const select = document.getElementById('channelId');
-            channels.forEach(channel => {
-                const option = document.createElement('option');
-                option.value = channel.id; // Assuming 'id' is the property
-                option.textContent = channel.name; // Assuming 'name' is the property
-                select.appendChild(option);
-            });
-        });
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
 
+        // Create FormData object to send file data
+        var formData = new FormData(this);
 
-
-    // Fetch videos using AJAX
-    function fetchVideos() {
-        fetch('/api/videos')
+        // Send AJAX request to upload the video
+        fetch('/channel', {
+            method: 'POST',
+            body: formData
+        })
             .then(response => response.json())
-            .then(videos => {
-                // Clear existing content in the video list
-                document.getElementById('video-list').innerHTML = '';
+            .then(data => {
+                // Create video element and set attributes
+                var video = document.createElement('video');
+                video.setAttribute('controls', '');
+                video.setAttribute('src', data.videoUrl);
 
-                // Iterate over fetched videos and create HTML elements to display them
-                videos.forEach(video => {
-                    const videoItem = document.createElement('div');
-                    videoItem.classList.add('video-item');
-                    videoItem.innerHTML = `
-                    <h3>${video.originalName}</h3>
-                    <video src="${video.url}" controls></video>
-                `;
-                    document.getElementById('video-list').appendChild(videoItem);
-                });
+                // Create img element for thumbnail and set attributes
+                var thumbnail = document.createElement('img');
+                thumbnail.setAttribute('src', data.thumbnailUrl);
+                thumbnail.setAttribute('alt', 'Thumbnail');
+
+                // Create div to hold video and thumbnail
+                var videoContainer = document.createElement('div');
+                videoContainer.classList.add('video-item');
+                videoContainer.appendChild(video);
+                videoContainer.appendChild(thumbnail);
+
+                // Append the video container to the video list
+                document.getElementById('video-list').appendChild(videoContainer);
             })
-            .catch(error => {
-                console.error('Error fetching videos:', error);
-            });
-    }
-
-    window.addEventListener('load', fetchVideos);
-
-
+            .catch(error => console.error('Error:', error));
+    });
 </script>
+
 </body>
 </html>

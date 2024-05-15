@@ -14,6 +14,8 @@ public interface UserService {
     void revokeAdminRole(Long userId);
     void unblockUser(Long userId);
 
+    User findById(Long userId);
+
 }
 
 

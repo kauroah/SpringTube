@@ -14,7 +14,7 @@
             <li><a href="/springtube">Home</a></li>
             <li><a href="/updateChannel/">Update</a></li>
             <li><a href="/profile">Profile</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/signOut">Sign Out</a></li>
         </ul>
     </nav>
 </header>

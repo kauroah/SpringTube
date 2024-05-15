@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -29,7 +30,7 @@ public class Video {
 
 
     @OneToMany(mappedBy = "video")
-    private Set<Comment> comments = new HashSet<>();
+    private List<Comment> comments;
 
 //STILL TRYING TO COMPLETE THIS PART IT'S NOT IMPORTANT FOR NOW
 //    @Transient

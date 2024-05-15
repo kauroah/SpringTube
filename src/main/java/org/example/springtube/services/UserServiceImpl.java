@@ -70,4 +70,9 @@ public class UserServiceImpl implements UserService {
         mailService.sendEmailForConfirm(user.getEmail(), user.getConfirmCode());
         userRepository.save(user);
     }
+
+    @Override
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

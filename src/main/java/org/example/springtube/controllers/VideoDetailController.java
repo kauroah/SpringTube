@@ -1,6 +1,9 @@
 package org.example.springtube.controllers;
 
+import org.example.springtube.dto.CommentDto;
 import org.example.springtube.dto.ReactionDto;
+import org.example.springtube.models.Comment;
+import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
 import org.example.springtube.security.details.UserDetailsImpl;
 import org.example.springtube.services.*;
@@ -45,13 +48,13 @@ public class VideoDetailController {
         model.addAttribute("otherVideoIds", otherVideoIds);
 
 
-        // Fetch reaction stats for each video
         Map<Long, ReactionDto> reactionMap = new HashMap<>();
         for (Video video : otherVideos) {
             reactionMap.put(video.getId(), reactionService.getReactionStatsForVideo(video.getId()));
         }
         model.addAttribute("reactionMap", reactionMap);
         model.addAttribute("oppositeReactionType", "dislike");
+
 
 
         return "video_detail";
@@ -69,6 +72,7 @@ public class VideoDetailController {
 
         return ResponseEntity.ok("Reaction updated successfully");
     }
+
 
     @GetMapping("/checkSubscription/{channelId}")
     @ResponseBody

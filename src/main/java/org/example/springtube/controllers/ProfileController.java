@@ -1,9 +1,13 @@
 package org.example.springtube.controllers;
 
+import org.example.springtube.dto.UserDto;
 import org.example.springtube.models.User;
+import org.example.springtube.security.details.UserDetailsImpl;
 import org.example.springtube.services.SignUpService;
+import org.example.springtube.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +22,14 @@ public class ProfileController {
 
     @Autowired
     private SignUpService signUpService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/profile")
     public String showProfilePage(Model model, HttpServletRequest request) {
         String email = request.getUserPrincipal().getName();
-        User user = signUpService.getUserByUsername(email);
-        model.addAttribute("user", user);
+        User user1 = signUpService.getUserByUsername(email);
+        model.addAttribute("user", user1);
         return "profile_page";
     }
 

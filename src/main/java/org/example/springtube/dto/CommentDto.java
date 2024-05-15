@@ -13,13 +13,15 @@ import org.example.springtube.models.Comment;
 public class CommentDto {
     private Long id;
     private String text;
-    private UserDto user; // Assuming UserDto class exists
+    private Long userId;
+    private Long videoId;
 
     public static CommentDto from(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
                 .text(comment.getText())
-                .user(UserDto.from(comment.getUser()))
+                .userId(comment.getUser().getId())
+                .videoId(comment.getVideo().getId())
                 .build();
     }
 }
