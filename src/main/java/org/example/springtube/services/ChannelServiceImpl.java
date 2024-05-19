@@ -39,16 +39,6 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     /**
-     * Creates a new channel by saving it to the repository.
-     *
-     * @param channel the channel to create.
-     */
-    @Override
-    public void createChannel(Channel channel) {
-        channelRepository.save(channel);
-    }
-
-    /**
      * Finds a channel by its ID.
      *
      * @param channelId the ID of the channel to find.

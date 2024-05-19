@@ -1,5 +1,6 @@
 package org.example.springtube.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springtube.dto.UserDto;
 import org.example.springtube.models.Channel;
 import org.example.springtube.models.Video;
@@ -12,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -57,13 +58,19 @@ public class AdminController {
                             @RequestParam(required = false) String query,
                             @RequestParam(defaultValue = "id") String sortParameter,
                             @RequestParam(defaultValue = "ASC") String directionParameter) {
-
-        List<UserDto> users = userService.search(page, size, query, sortParameter, directionParameter);
-        model.addAttribute("users", users);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", users.size() / size);  // Update this based on actual total pages from service
-        return "adminDashboard";
+        try {
+            List<UserDto> users = userService.search(page, size, query, sortParameter, directionParameter);
+            model.addAttribute("users", users);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", users.size() / size);  // Update this based on actual total pages from service
+            return "adminDashboard";
+        } catch (Exception e) {
+            log.info("An unexpected error occurred while fetching users", e);
+            model.addAttribute("errorMessage", "An unexpected error occurred while fetching users. Please try again later.");
+            return "redirect:/error";
+        }
     }
+
     /**
      * Blocks a user by their ID.
      *

@@ -12,18 +12,16 @@ public interface CommentService {
 
     List<CommentDto> getCommentsByVideoId(Long videoId);
 
-    // boolean saveComment(CommentDto commentDto);
-
-    Comment updateComment(Comment comment);
-
-    void deleteComment(Long commentId);
-
-    List<Comment> getAllComments();
-
-    Comment getCommentById(Long commentId);
+    CommentDto deleteComment(Long commentId);
 
     List<Comment> getCommentsForVideo(Long videoId);
 
     @Transactional
     CommentDto createComment(Long userId, Long videoId, String text);
+
+    CommentDto findById(Long commentId);
+
+    CommentDto updateComment(Long commentId, String newText);
+    // CommentDto updateComment(CommentDto commentDto);
+
 }

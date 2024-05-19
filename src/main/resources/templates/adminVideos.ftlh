@@ -24,7 +24,6 @@
             <td>${video.originalName}</td>
             <td>${video.channel.name}</td>
 
-
             <td class="action-buttons">
                 <form action="/admin/videos/delete" method="post">
                     <input type="hidden" name="videoId" value="${video.id}">

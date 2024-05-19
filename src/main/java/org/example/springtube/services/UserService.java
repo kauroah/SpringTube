@@ -17,6 +17,5 @@ public interface UserService {
     void revokeAdminRole(Long userId);
     void unblockUser(Long userId);
     User findById(Long userId);
-
     List<UserDto> search(Integer page, Integer size, String query, String sortParameter, String directionParameter);
 }

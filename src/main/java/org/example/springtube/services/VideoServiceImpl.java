@@ -322,10 +322,4 @@ public class VideoServiceImpl implements VideoService {
     public List<VideoDto> findVideosByChannelId(Long channelId) {
         return videoRepository.findByChannelId(channelId);
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 }

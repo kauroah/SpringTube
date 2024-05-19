@@ -1,5 +1,6 @@
 package org.example.springtube.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springtube.dto.UserDto;
 import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
@@ -20,7 +21,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
-
+@Slf4j
 @Controller
 public class HomeController {
 
@@ -41,32 +42,42 @@ public class HomeController {
      */
     @GetMapping("/springtube")
     public String home(Model model, @RequestParam(required = false) String query, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        // Retrieve the current user and convert to a UserDto
-        User user = userService.findUserById(userDetails.getUserId());
-        UserDto userDto = UserDto.from(user);
-        model.addAttribute("user", userDto);
+        try {
+            // Retrieve the current user and convert to a UserDto
+            User user = userService.findUserById(userDetails.getUserId());
+            UserDto userDto = UserDto.from(user);
+            model.addAttribute("user", userDto);
 
-        List<Video> videos;
-        // If a query is provided, search for videos matching the query
-        if (query != null && !query.isEmpty()) {
-            videos = videoService.searchVideos(query);
-        } else {
-            // Otherwise, retrieve all videos
-            videos = videoService.findAll();
+            List<Video> videos;
+            // If a query is provided, search for videos matching the query
+            if (query != null && !query.isEmpty()) {
+                videos = videoService.searchVideos(query);
+            } else {
+                // Otherwise, retrieve all videos
+                videos = videoService.findAll();
+            }
+
+            // Shuffle the list of videos
+            Collections.shuffle(videos);
+            model.addAttribute("videos", videos);
+
+            // If no videos are found, redirect to YouTube with the search query
+            if (videos.isEmpty() && query != null && !query.isEmpty()) {
+                String youtubeSearchUrl = "https://www.youtube.com/results?search_query=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
+                return "redirect:" + youtubeSearchUrl;
+            }
+
+            log.info("Home page loaded successfully for user {}", userDetails.getUsername());
+            return "home";
+        } catch (Exception e) {
+            // If an unexpected error occurs, log the error and redirect to the error page
+            log.error("An unexpected error occurred while loading the home page", e);
+            model.addAttribute("errorMessage", "An unexpected error occurred while loading the home page. Please try again later.");
+            return "redirect:/error";
         }
-
-        // Shuffle the list of videos
-        Collections.shuffle(videos);
-        model.addAttribute("videos", videos);
-
-        // If no videos are found, redirect to YouTube with the search query
-        if (videos.isEmpty() && query != null && !query.isEmpty()) {
-            String youtubeSearchUrl = "https://www.youtube.com/results?search_query=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
-            return "redirect:" + youtubeSearchUrl;
-        }
-
-        return "home";
     }
+
+
 
 //    /**
 //     * Retrieves a file (video or thumbnail) and writes it to the response.

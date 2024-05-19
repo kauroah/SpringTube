@@ -1,6 +1,7 @@
 package org.example.springtube.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.springtube.dto.UserDto;
 import org.example.springtube.dto.UserForm;
 import org.example.springtube.models.enums.Role;
 import org.example.springtube.models.enums.State;
@@ -52,7 +53,9 @@ public class SignUpServiceImpl implements SignUpService {
                     .build();
             userRepository.save(user);
             smsService.sendSms(userForm.getPhone(), "You signed up!");
+            log.info("User needs to confirm: {}", userForm.getEmail());
             mailService.sendEmailForConfirm(userForm.getEmail(), user.getConfirmCode());
+            log.info("User signed up successfully: {}", userForm.getEmail());
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error occurred while adding user.", e);
             throw new RuntimeException("Error occurred while adding user.");
@@ -95,20 +98,6 @@ public class SignUpServiceImpl implements SignUpService {
     public User findById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-    }
-
-    @Override
-    public User authenticateAndGetUserId(String email, String password) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-
-        // Check if user exists and password matches
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                return user;
-            }
-        }
-        return null;
     }
 
     @Override

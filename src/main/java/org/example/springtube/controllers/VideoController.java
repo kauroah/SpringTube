@@ -1,5 +1,6 @@
 package org.example.springtube.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springtube.dto.VideoDto;
 import org.example.springtube.models.User;
 import org.example.springtube.services.SignUpService;
@@ -19,21 +20,16 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Controller
 public class VideoController {
+
     @Autowired
     private VideoService videoService;
 
     @Autowired
     private SignUpService signUpService;
 
-    /**
-     * Displays the video upload form with a list of user's uploaded videos.
-     *
-     * @param model     The model to pass attributes to the view.
-     * @param principal The security principal of the currently logged-in user.
-     * @return A string representing the view to be rendered.
-     */
     @GetMapping("/channel")
     public String showUploadForm(Model model, Principal principal) {
         try {
@@ -41,42 +37,51 @@ public class VideoController {
             List<VideoDto> userVideos = videoService.getUploadedVideos(user.getId());
             model.addAttribute("videos", userVideos);
             model.addAttribute("channelName", user.getChannel().getName());
+            log.info("Displayed upload form for user: {}", user.getEmail());
             return "upload";
         } catch (Exception e) {
-            return "redirect:/error"; // Redirect to a generic error page if there is an exception
+            log.error("Error while displaying upload form: {}", e.getMessage());
+            return "redirect:/error";
         }
     }
 
-    /**
-     * Handles the upload of a video file and its thumbnail.
-     *
-     * @param file       The video file to upload.
-     * @param thumbnail  The thumbnail for the video.
-     * @param categories The categories associated with the video.
-     * @param principal  The security principal of the currently logged-in user.
-     * @return A redirect string to refresh the page.
-     */
     @PostMapping("/channel")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("thumbnail") MultipartFile thumbnail,
                                    @RequestParam Set<String> categories,
-                                   Principal principal) {
-        if (file.isEmpty() || thumbnail.isEmpty()) {
-            return String.valueOf(ResponseEntity.badRequest().body("Please select both video and thumbnail files."));
+                                   Principal principal,
+                                   Model model) {
+        try {
+            if (file.isEmpty() || thumbnail.isEmpty()) {
+                throw new IllegalArgumentException("Please select both video and thumbnail files.");
+            }
+            videoService.saveFile(file, thumbnail, categories, principal);
+            log.info("Video uploaded successfully by user: {}", principal.getName());
+            return "redirect:/channel";
+        } catch (Exception e) {
+            log.error("Error while uploading files: {}", e.getMessage());
+            model.addAttribute("errorMessage", "An unexpected error occurred while uploading the files. Please try again later.");
+            return "redirect:/error";
         }
-        videoService.saveFile(file, thumbnail, categories, principal);
-
-        return "redirect:/channel";
     }
 
     @GetMapping("/files/{file-name:.+}")
     public void getFile(@PathVariable("file-name") String fileName, HttpServletResponse response) {
-        videoService.writeFileToResponse(fileName, response);
+        try {
+            videoService.writeFileToResponse(fileName, response);
+            log.info("Retrieved file: {}", fileName);
+        } catch (Exception e) {
+            log.error("Error while retrieving file {}: {}", fileName, e.getMessage());
+        }
     }
-
 
     @GetMapping("/thumbnails/{file-name:.+}")
     public void getThumbnail(@PathVariable("file-name") String fileName, HttpServletResponse response) {
-        videoService.writeThumbnailToResponse(fileName, response);
+        try {
+            videoService.writeThumbnailToResponse(fileName, response);
+            log.info("Retrieved thumbnail: {}", fileName);
+        } catch (Exception e) {
+            log.error("Error while retrieving thumbnail {}: {}", fileName, e.getMessage());
+        }
     }
 }

@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h1>Email Confirmation</h1>
-    <p>A confirmation email has been sent to <strong th:text="${email}"></strong>.</p>
+    <p>A confirmation email has been sent to you.</p>
     <p>Please follow the instructions in the email to confirm your email address.</p>
 </div>
 </body>

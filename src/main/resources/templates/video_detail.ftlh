@@ -20,7 +20,6 @@
         <a href="/springtube" style="text-decoration: none; color: inherit;">SpringTube</a>
     </div>
 
-
     <div class="search-bar">
         <form action="/springtube" method="get" onsubmit="return onSubmit()">
             <input id="searchInput" type="text" name="query" placeholder="Search videos">
@@ -55,17 +54,6 @@
             </button>
         </div>
 
-        <#--            <div class="subscribe-button">-->
-        <#--                <div class="subscribe-unsubscribe-container">-->
-        <#--                    <p>Channel: <a href="/channel/${mainVideo.channel.id}">${mainVideo.channel.name}</a></p>-->
-        <#--                    <form id="subscribeForm" action="/subscribe/${mainVideo.channel.id}" method="post">-->
-        <#--                        <button type="submit" id="subscribeButton">Subscribe</button>-->
-        <#--                    </form>-->
-        <#--                    <form id="unsubscribeForm" action="/unsubscribe/${mainVideo.channel.id}" method="post">-->
-        <#--                        <button type="submit" id="unsubscribeButton">Unsubscribe</button>-->
-        <#--                    </form>-->
-        <#--                </div>-->
-        <#--            </div>-->
         <div class="subscribe-button">
             <div class="subscribe-unsubscribe-container">
                 <p>Channel: <a href="/channel/${mainVideo.channel.id}">${mainVideo.channel.name}</a></p>
@@ -76,7 +64,6 @@
         </div>
     </div>
 </form>
-
 
 <div class="comments-section" style="width: 70%;">
     <h3>Comments</h3>
@@ -89,12 +76,23 @@
     <div id="commentsContainer" class="comment-list">
         <#list comments as comment>
             <div class="comment">
-                <p><strong>${comment.user.firstName}</strong>: ${comment.text}</p>
+                <p><strong>${comment.user}</strong>: ${comment.text}</p>
+                <!-- Delete button for each comment -->
+                <form action="/comment/delete/${comment.id!}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+                <!-- Edit form for each comment -->
+                <form id="editForm_${comment.id!}" action="/comment/update" method="post" style="display: none;">
+                    <input type="hidden" name="commentId" value="${comment.id!}">
+                    <input type="text" name="newText" placeholder="Edit comment" value="${comment.text}">
+                    <button type="submit">Save</button>
+                    <button type="button" onclick="cancelEdit(${comment.id!})">Cancel</button>
+                </form>
+                <button type="button" onclick="toggleEditForm(${comment.id!})">Edit</button>
             </div>
         </#list>
     </div>
 </div>
-
 
 <div class="other-videos-container">
     <div class="column">
@@ -102,7 +100,7 @@
             <div class="col-md-4 mb-3">
                 <div class="other-video-item" data-video-id="${video.id}">
                     <div class="thumbnail">
-                        <img src="${video.thumbnailUrl}" alt="Thumbnail">
+                        <img class="thumbnail" src="/thumbnails/${video.thumbnailStorageName}" alt="Thumbnail">
                     </div>
                     <div class="video-info">
                         <h3>${video.originalName}</h3>
@@ -144,7 +142,6 @@
             }
         });
     });
-
 </script>
 </body>
 </html>

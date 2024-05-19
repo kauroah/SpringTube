@@ -57,65 +57,53 @@ public class CommentServiceImpl implements CommentService {
         return comments.stream().map(CommentDto::from).collect(Collectors.toList());
     }
 
-    /**
-     * Updates an existing comment.
-     *
-     * @param comment the comment to update.
-     * @return the updated comment.
-     * @throws RuntimeException if the comment does not exist.
-     */
-    @Override
-    public Comment updateComment(Comment comment) {
-        Optional<Comment> existingCommentOptional = commentRepository.findById(comment.getId());
-        if (existingCommentOptional.isPresent()) {
-            return commentRepository.save(comment);
-        } else {
-            throw new RuntimeException("Comment not found with ID: " + comment.getId());
-        }
-    }
+//    /**
+//     * Updates an existing comment.
+//     *
+//     * @param comment the comment to update.
+//     * @return the updated comment.
+//     * @throws RuntimeException if the comment does not exist.
+//     */
+//    @Override
+//    public Comment updateComment(Comment comment) {
+//        Optional<Comment> existingCommentOptional = commentRepository.findById(comment.getId());
+//        if (existingCommentOptional.isPresent()) {
+//            return commentRepository.save(comment);
+//        } else {
+//            throw new RuntimeException("Comment not found with ID: " + comment.getId());
+//        }
+//    }
 
     /**
      * Deletes a comment by its ID.
      *
      * @param commentId the ID of the comment to delete.
+     * @return
      * @throws RuntimeException if the comment does not exist.
      */
     @Override
-    public void deleteComment(Long commentId) {
+    public CommentDto deleteComment(Long commentId) {
         Optional<Comment> existingCommentOptional = commentRepository.findById(commentId);
         if (existingCommentOptional.isPresent()) {
             commentRepository.deleteById(commentId);
         } else {
             throw new RuntimeException("Comment not found with ID: " + commentId);
         }
+        return null;
     }
 
-    /**
-     * Retrieves all comments from the repository.
-     *
-     * @return a list of all comments.
-     */
-    @Override
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
-    }
-
-    /**
-     * Retrieves a comment by its ID.
-     *
-     * @param commentId the ID of the comment to retrieve.
-     * @return the retrieved comment.
-     * @throws RuntimeException if the comment does not exist.
-     */
-    @Override
-    public Comment getCommentById(Long commentId) {
-        Optional<Comment> existingCommentOptional = commentRepository.findById(commentId);
-        if (existingCommentOptional.isPresent()) {
-            return existingCommentOptional.get();
-        } else {
-            throw new RuntimeException("Comment not found with ID: " + commentId);
-        }
-    }
+//
+//    @Override
+//    public CommentDto deleteComment(Long commentId) {
+//        Optional<Comment> existingCommentOptional = commentRepository.findById(commentId);
+//        if (existingCommentOptional.isPresent()) {
+//            Comment existingComment = existingCommentOptional.get();
+//            commentRepository.deleteById(commentId);
+//            return CommentDto.from(existingComment); // Convert the deleted comment to CommentDto
+//        } else {
+//            throw new RuntimeException("Comment not found with ID: " + commentId);
+//        }
+//    }
 
     /**
      * Retrieves comments for a specific video by its ID.
@@ -162,4 +150,24 @@ public class CommentServiceImpl implements CommentService {
         // Convert the saved comment to a CommentDto and return it
         return CommentDto.from(comment);
     }
+
+    @Override
+    public CommentDto findById(Long commentId) {
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        return comment.map(CommentDto::from).orElse(null);
+    }
+
+    @Override
+    public CommentDto updateComment(Long commentId, String newText) {
+        Optional<Comment> existingCommentOptional = commentRepository.findById(commentId);
+        if (existingCommentOptional.isPresent()) {
+            Comment existingComment = existingCommentOptional.get();
+            existingComment.setText(newText);
+            commentRepository.save(existingComment);
+            return CommentDto.from(existingComment);
+        } else {
+            throw new RuntimeException("Comment not found with ID: " + commentId);
+        }
+    }
+
 }

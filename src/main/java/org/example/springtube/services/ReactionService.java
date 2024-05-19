@@ -13,7 +13,4 @@ public interface ReactionService{
 
     @Transactional
     void updateReaction(Long videoId, String reactionType);
-
-    // @Transactional
-    //   void toggleReaction(Long videoId, String reactionType);
 }

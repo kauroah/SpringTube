@@ -19,7 +19,8 @@ public class UserDto {
     private String firstname; // First name of the user
     private String lastname; // Last name of the user
     private String role;
-    private String State; // Role of the user
+    private String State;
+    private String Phone;// Role of the user
 
     /**
      * Static factory method to create a UserDto object from a User entity.

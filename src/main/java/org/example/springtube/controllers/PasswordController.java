@@ -1,5 +1,6 @@
 package org.example.springtube.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springtube.models.User;
 import org.example.springtube.services.MailService;
 import org.example.springtube.services.PasswordService;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Slf4j
 @Controller
 public class PasswordController {
 
@@ -51,26 +52,34 @@ public class PasswordController {
      * @return a redirect to the forgot password success page
      */
     @PostMapping("/forgotPassword")
-    public String forgotPassword(@RequestParam("email") String email, HttpServletRequest request) {
-        // Find the user by email
-        User user = signUpService.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public String forgotPassword(@RequestParam("email") String email, HttpServletRequest request, Model model) {
+        try {
+            // Find the user by email
+            User user = signUpService.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Generate a password reset token
-        String token = UUID.randomUUID().toString();
-        PasswordResetToken resetToken = new PasswordResetToken();
-        resetToken.setUser(user);
-        resetToken.setToken(token);
-        resetToken.setExpiryDate(LocalDateTime.now().plusHours(1));
-        passwordService.save(resetToken);
+            // Generate a password reset token
+            String token = UUID.randomUUID().toString();
+            PasswordResetToken resetToken = new PasswordResetToken();
+            resetToken.setUser(user);
+            resetToken.setToken(token);
+            resetToken.setExpiryDate(LocalDateTime.now().plusHours(1));
+            passwordService.save(resetToken);
 
-        // Construct the password reset URL
-        String resetUrl = request.getRequestURL().toString().replace("/forgotPassword", "/resetPassword?token=" + token);
-        // Send the password reset email
-        mailService.sendPasswordResetEmail(email, resetUrl);
+            // Construct the password reset URL
+            String resetUrl = request.getRequestURL().toString().replace("/forgotPassword", "/resetPassword?token=" + token);
+            // Send the password reset email
+            mailService.sendPasswordResetEmail(email, resetUrl);
 
-        return "redirect:/forgotPasswordSuccess";
+            log.info("Password reset email sent successfully for user {}", email);
+            return "redirect:/forgotPasswordSuccess";
+        } catch (Exception e) {
+            log.error("An unexpected error occurred while processing forgot password request for email {}", email, e);
+            model.addAttribute("errorMessage", "An unexpected error occurred while processing your request. Please try again later.");
+            return "redirect:/error";
+        }
     }
+
 
     /**
      * Displays the forgot password success page.
@@ -91,18 +100,25 @@ public class PasswordController {
      */
     @GetMapping("/resetPassword")
     public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
-        // Find the reset token
-        PasswordResetToken resetToken = passwordService.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid token"));
+        try {
+            // Find the reset token
+            PasswordResetToken resetToken = passwordService.findByToken(token)
+                    .orElseThrow(() -> new RuntimeException("Invalid token"));
 
-        // Check if the token has expired
-        if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            return "redirect:/forgotPassword";
+            // Check if the token has expired
+            if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+                return "redirect:/forgotPassword";
+            }
+
+            model.addAttribute("token", token);
+            return "resetpassword";
+        } catch (Exception e) {
+            log.error("An unexpected error occurred while processing reset password form for token {}", token, e);
+            model.addAttribute("errorMessage", "An unexpected error occurred while processing your request. Please try again later.");
+            return "redirect:/error";
         }
-
-        model.addAttribute("token", token);
-        return "resetpassword";
     }
+
 
     /**
      * Handles the submission of the reset password form.
@@ -112,26 +128,34 @@ public class PasswordController {
      * @return a redirect to the reset password success page
      */
     @PostMapping("/resetPassword")
-    public String resetPassword(@RequestParam("token") String token, @RequestParam("password") String password) {
-        // Find the reset token
-        PasswordResetToken resetToken = passwordService.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid token"));
+    public String resetPassword(@RequestParam("token") String token, @RequestParam("password") String password, Model model) {
+        try {
+            // Find the reset token
+            PasswordResetToken resetToken = passwordService.findByToken(token)
+                    .orElseThrow(() -> new RuntimeException("Invalid token"));
 
-        // Check if the token has expired
-        if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            return "redirect:/forgotPassword";
+            // Check if the token has expired
+            if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+                return "redirect:/forgotPassword";
+            }
+
+            // Update the user's password
+            User user = resetToken.getUser();
+            user.setPassword(passwordEncoder.encode(password));
+            signUpService.save(user);
+
+            // Delete the used reset token
+            passwordService.delete(resetToken);
+
+            log.info("Password reset successfully for user {}", user.getEmail());
+            return "redirect:/resetPasswordSuccess";
+        } catch (Exception e) {
+            log.error("An unexpected error occurred while resetting password for token {}", token, e);
+            model.addAttribute("errorMessage", "An unexpected error occurred while processing your request. Please try again later.");
+            return "redirect:/error";
         }
-
-        // Update the user's password
-        User user = resetToken.getUser();
-        user.setPassword(passwordEncoder.encode(password));
-        signUpService.save(user);
-
-        // Delete the used reset token
-        passwordService.delete(resetToken);
-
-        return "redirect:/resetPasswordSuccess";
     }
+
 
     /**
      * Displays the reset password success page.

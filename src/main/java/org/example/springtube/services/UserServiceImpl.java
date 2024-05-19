@@ -19,8 +19,6 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    //private static final int CONFIRMATION_CODE_LENGTH = 6;
-
     @Autowired
     private UserRepository userRepository;
 

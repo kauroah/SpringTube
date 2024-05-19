@@ -9,7 +9,6 @@ public interface ChannelService {
 
     ChannelDto findChannelById(Long channelId);
 
-    void createChannel(Channel channel);
 
     Channel findById(Long channelId);
 

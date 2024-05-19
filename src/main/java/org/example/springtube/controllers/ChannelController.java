@@ -1,5 +1,6 @@
 package org.example.springtube.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springtube.dto.ChannelDto;
 import org.example.springtube.dto.VideoDto;
 import org.example.springtube.models.Channel;
@@ -18,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class ChannelController {
 
     // Injecting the ChannelService and VideoService beans
@@ -36,17 +38,24 @@ public class ChannelController {
      */
     @GetMapping("/channel/{channelId}")
     public String viewChannel(@PathVariable Long channelId, Model model) {
-        // Retrieve channel details
-        ChannelDto channel = channelService.findChannelById(channelId);
-        // Retrieve videos associated with the channel
-        List<VideoDto> videos = videoService.findVideosByChannelId(channelId);
-        // Shuffle the list of videos
-        Collections.shuffle(videos);
-        // Add channel and videos to the model
-        model.addAttribute("channel", channel);
-        model.addAttribute("videos", videos);
+        try {
+            // Retrieve channel details
+            ChannelDto channel = channelService.findChannelById(channelId);
+            // Retrieve videos associated with the channel
+            List<VideoDto> videos = videoService.findVideosByChannelId(channelId);
+            // Shuffle the list of videos
+            Collections.shuffle(videos);
+            // Add channel and videos to the model
+            model.addAttribute("channel", channel);
+            model.addAttribute("videos", videos);
 
-        return "viewChannel";
+            log.info("Viewing channel with ID: {}", channelId);
+            return "viewChannel";
+        } catch (Exception e) {
+            log.info("An unexpected error occurred while viewing channel with ID: {}", channelId, e);
+            model.addAttribute("errorMessage", "An unexpected error occurred. Please try again later.");
+            return "redirect:/error";
+        }
     }
 
     /**
@@ -58,14 +67,19 @@ public class ChannelController {
      */
     @GetMapping("/createChannel")
     public String showChannelForm(Model model, Principal principal) {
-        String email = principal.getName();
-        // Check if the user can create a channel
-        if (!channelService.userCanCreateChannel(email)) {
-            return "redirect:/channel";
+        try {
+            String email = principal.getName();
+            if (!channelService.userCanCreateChannel(email)) {
+                return "redirect:/channel";
+            }
+            model.addAttribute("channel", new Channel());
+            log.info("Showing channel creation form for user: {}", email);
+            return "createchannel";
+        } catch (Exception e) {
+            log.info("An unexpected error occurred while showing channel creation form", e);
+            model.addAttribute("errorMessage", "An unexpected error occurred. Please try again later.");
+            return "redirect:/error";
         }
-        // Add a new Channel object to the model
-        model.addAttribute("channel", new Channel());
-        return "createchannel";
     }
 
     /**
@@ -76,13 +90,22 @@ public class ChannelController {
      * @return a redirect to the appropriate page based on success or failure
      */
     @PostMapping("/createChannel")
-    public String createChannel(@ModelAttribute("channel") Channel channel, Principal principal) {
-        String email = principal.getName();
-        // Attempt to create the channel for the user
-        if (channelService.createChannelForUser(channel, email)) {
-            return "redirect:/springtube";
-        } else {
+    public String createChannel(@ModelAttribute("channel") Channel channel, Principal principal, Model model) {
+        try {
+            String email = principal.getName();
+            if (channelService.createChannelForUser(channel, email)) {
+                log.info("Channel created successfully for user: {}", email);
+                return "redirect:/springtube";
+            } else {
+                log.info("Failed to create channel for user: {}", email);
+                model.addAttribute("errorMessage", "Failed to create channel.");
+                return "redirect:/error";
+            }
+        } catch (Exception e) {
+            log.info("An unexpected error occurred while creating channel", e);
+            model.addAttribute("errorMessage", "An unexpected error occurred. Please try again later.");
             return "redirect:/error";
         }
     }
+
 }

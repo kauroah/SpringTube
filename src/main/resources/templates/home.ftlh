@@ -55,7 +55,7 @@
                 </#if>
                 <div class="video-item" data-video-id="${video.id}">
                     <div class="video-container">
-                        <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
+                        <img class="thumbnail" src="/thumbnails/${video.thumbnailStorageName}" alt="Thumbnail">
                         <video controls>
                             <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/webm">
                             Your browser does not support the video tag.
