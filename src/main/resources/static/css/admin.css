@@ -1,0 +1,121 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #000000;
+    background: linear-gradient(to bottom, #45A29E 5%, #000000 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+}
+
+.page-titles {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.admin-container {
+    margin: 20px;
+    padding: 20px;
+    background: linear-gradient(to bottom, #45A29E 5%, #000000 45%);
+    background-attachment: fixed;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th{
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #45A29E;
+}
+
+td {
+    color: #ffffff;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #45A29E;
+}
+
+th {
+    background-color: #45A29E;
+}
+
+tr:nth-child(even) {
+    background-color: #45A29E;
+}
+
+.action-buttons form {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.action-buttons form button {
+    padding: 8px 12px;
+    background-color: #000000;
+    color: #45A29E;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons form button:hover {
+    background-color: #000000;
+}
+
+
+
+
+
+
+
+
+/* Pagination Styling */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #45A29E;
+    border-radius: 5px;
+    background-color: #45A29E;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+li.active {
+    background-color: #000000;
+    border: 1px solid #000000;
+}

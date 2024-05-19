@@ -1,0 +1,43 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff; /* Set text color to white */
+    background: linear-gradient(to bottom, #45A29E 5%, #000000 45%); /* Adjust gradient here */
+    background-attachment: fixed; /* This ensures the gradient doesn't scroll with the content */
+    min-height: 100vh; /* Ensure at least the full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 300px;
+    height: auto;
+}
+
+
+.loading-container p {
+    font-size: 25px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

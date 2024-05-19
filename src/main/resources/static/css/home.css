@@ -1,0 +1,326 @@
+/* Body styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff; /* Set text color to white */
+    background: linear-gradient(to bottom, #45A29E 5%, #000000 45%); /* Adjust gradient here */
+    background-attachment: fixed; /* This ensures the gradient doesn't scroll with the content */
+    min-height: 100vh; /* Ensure at least the full height of the viewport */
+}
+
+/* Search bar styles */
+.search-bar {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.search-bar input[type="text"] {
+    width: 600px; /* Adjust the width of the search input */
+    padding: 5px; /* Reduce padding */
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Reduce border-radius */
+    color: #000; /* Set text color to black */
+    background-color: #fff; /* Set background color to white */
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Button styles */
+.button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+button {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #000000;
+}
+
+button:active {
+    background-color: #45A29E;
+}
+
+/* Video Actions styles */
+.video-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.like-btn,
+.dislike-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.like-btn i,
+.dislike-btn i {
+    margin-right: 5px;
+}
+
+/*!* CSS styles *!*/
+.video-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* Other existing CSS remains unchanged */
+
+/* Adjust the original name font size and position */
+.video-item h4 {
+    font-size: 18px; /* Decrease the font size */
+    margin-top: 14px; /* Add margin to bring it down */
+    color: #fff; /* Ensure the text color is white */
+}
+
+/* Video Item Styles (for reference) */
+.video-item {
+    flex: 0 0 calc(20% - 20px); /* Adjust width based on the number of videos per row */
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    max-width: calc(20% - 20px); /* Adjust maximum width based on the number of videos per row */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    position: relative; /* Set position relative for positioning children */
+}
+
+/* Video Container */
+.video-container {
+    position: relative; /* Position relative for positioning the thumbnail and video */
+    display: inline-block; /* Display as inline-block to align thumbnail and video horizontally */
+}
+
+/* Thumbnail */
+.video-container img.thumbnail {
+    position: absolute; /* Position absolute for overlaying */
+    top: 0; /* Align to top */
+    left: 0; /* Align to left */
+    width: 100%; /* Full width */
+    z-index: 1; /* Set higher z-index to appear on top */
+}
+
+/* Video */
+.video-container video {
+    position: relative; /* Set video position to relative */
+    width: 100%; /* Full width */
+    z-index: 0; /* Set lower z-index to stay behind thumbnail */
+}
+
+/* Header Styles */
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 10px 20px; /* Adjust padding as needed */
+    display: flex;
+    justify-content: space-between; /* Align items horizontally */
+    align-items: center; /* Center items vertically */
+}
+
+.logo {
+    font-size: 24px; /* Adjust font size as needed */
+    font-weight: bold; /* Make the font bold */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li:not(:last-child) {
+    margin-right: 20px; /* Adjust margin between buttons */
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.thumbnail img {
+    width: 300px;
+    height: 150px;
+}
+
+.other-videos-container {
+    margin-top: 50px;
+    position: absolute;
+    top: 20px;
+    left: 80%; /* Adjust left position */
+    z-index: 1000;
+}
+
+
+.other-videos-container .column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start of the cross axis (left) */
+}
+
+
+
+.other-videos-container .video-info h3 {
+    font-size: 20px; /* Adjust font size */
+    white-space: normal; /* Allow text to wrap to a new line */
+    max-width: 100%;
+    margin-bottom: 10px; /* Adjust the value based on the video width */
+}
+
+
+/* Button styles */
+.button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+/* Upload button */
+#upload-form input[type="submit"] {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#upload-form input[type="submit"]:hover {
+    background-color: #000000;
+}
+
+#upload-form input[type="submit"]:active {
+    background-color: #45A29E;
+}
+
+/* Browse button */
+#upload-form input[type="file"] {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#upload-form input[type="file"]:hover {
+    background-color: #000000;
+}
+
+#upload-form input[type="file"]:active {
+    background-color: #45A29E;
+}
+
+
+
+
+
+
+
+.subscribe-button {
+    text-align: center; /* Center align text */
+}
+
+.subscribe-button p {
+    margin-bottom: 40px; /* Add some space below the channel name */
+}
+
+.subscribe-unsubscribe-container {
+    display: flex;
+    justify-content: center; /* Center align buttons horizontally */
+    gap: 10px; /* Add space between buttons */
+    align-items: center; /* Align items vertically in the center */
+}
+
+#subscribeButton, #unsubscribeButton {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 40px;
+}
+
+#subscribeButton:hover, #unsubscribeButton:hover {
+    background-color: #000000;
+}
+
+#subscribeButton:active, #unsubscribeButton:active {
+    background-color: #45A29E;
+}
+
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.video-item {
+    width: calc(20% - 20px); /* 20% width with 20px margin */
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .video-item {
+        width: calc(33.33% - 20px); /* Adjust for smaller screens */
+    }
+}
+
+
+
+
+.comment-submit-button {
+    padding: 10px 20px;
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    /* Add margin for spacing */
+}
+
+
+.comment-date {
+    margin-left: 290px; /* Adjust the margin as needed */
+}
+
+
+
+
