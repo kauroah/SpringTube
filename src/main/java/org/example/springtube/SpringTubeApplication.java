@@ -1,7 +1,6 @@
+
 package org.example.springtube;
 
-import org.example.springtube.services.StreamingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationListener;
@@ -9,21 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.core.io.Resource;
-import reactor.core.publisher.Mono;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.io.IOException;
 
 
 @SpringBootApplication
-@RestController
 public class SpringTubeApplication implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Bean

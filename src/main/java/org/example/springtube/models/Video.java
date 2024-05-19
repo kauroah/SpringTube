@@ -11,7 +11,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
+//@Data
+@Getter
+@Setter
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,7 @@ public class Video {
     private Long size;
     private String type;
     private String thumbnailUrl;
+    private String thumbnailStorageName;
 
 
     @ManyToOne

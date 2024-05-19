@@ -1,5 +1,6 @@
 package org.example.springtube.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springtube.dto.ReactionDto;
 import org.example.springtube.models.Reaction;
 import org.example.springtube.models.Video;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Slf4j
 public class ReactionServiceImpl implements ReactionService{
 
     @Autowired

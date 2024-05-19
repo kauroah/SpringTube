@@ -1,6 +1,11 @@
 package org.example.springtube.services;
 
+import org.example.springtube.dto.VideoDto;
+import org.example.springtube.models.User;
 import org.example.springtube.models.Video;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
@@ -9,13 +14,13 @@ import java.util.Set;
 
 public interface VideoService {
 
-    Video findById(Long id);
+    VideoDto findById(Long id);
     String saveFile(MultipartFile uploadFile, MultipartFile thumbnailFile, Set<String> categoryNames, Principal principal);
     void writeFileToResponse(String fileName, HttpServletResponse response);
     Video findByStorageName(String storageName);
-    List<Video> getUploadedVideos(Long userId);
+    List<VideoDto> getUploadedVideos(Long userId);
     void writeThumbnailToResponse(String fileName, HttpServletResponse response);
-    List<Video> getOtherVideos(Long mainVideoId);
+    List<VideoDto> getOtherVideos(Long mainVideoId);
     Video findByThumbnail(String thumbnailUrl);
     List<Video> findAll();
 
@@ -23,27 +28,16 @@ public interface VideoService {
 
     void deleteVideo(Long videoId);
 
+    @Transactional
     void deleteVideosByChannelId(Long channelId);
 
     void deleteReactionsByVideoId(Long videoId);
 
-    List<Video> findVideosByChannelId(Long channelId);
+    List<VideoDto> findVideosByChannelId(Long channelId);
 
 
-    //     List<Video> findByTitleContainingIgnoreCase(String query);
 
-    //  void writeFileAndThumbnailToResponse(String fileName, HttpServletResponse response);
 
-//    VideoDto likeVideo(Long userId, Long videoId);
-//
-//    VideoDto dislikeVideo(Long userId, Long videoId);
-//
-//
-//
-//    void likeVideo(Long videoId);
-//
-//    void dislikeVideo(Long videoId);
 
-    //  ResponseEntity<List<Video>> getAllOtherVideos();
-
+    // Page<Video> findAll(Pageable pageable);
 }

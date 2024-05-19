@@ -40,8 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/signOut").permitAll()
                 .antMatchers("/", "/signIn", "/signUp", "/signOut","/forgotPassword", "/resetPassword", "/static/**").permitAll()
+                .antMatchers("/subscribe/**", "/unsubscribe/**", "/comment", "/reaction").authenticated()
                 .antMatchers("/springtube").authenticated()
                 .and()
                 .formLogin()

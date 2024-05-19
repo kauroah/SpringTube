@@ -9,7 +9,9 @@
 </head>
 <body>
 <header>
-    <div class="logo">SpringTube</div>
+    <div class="logo">
+        <a href="/springtube" style="text-decoration: none; color: inherit;">SpringTube</a>
+    </div>
     <nav>
         <ul>
             <li><a href="/springtube">Home</a></li>
@@ -20,7 +22,6 @@
 </header>
 
 <h2>Welcome to ${channelName}</h2>
-
 
 
 <h2>Upload New Video</h2>
@@ -42,22 +43,22 @@
 <h2>My Videos</h2>
 <div id="video-list" class="video-grid">
     <#list videos as video>
-    <#if video_index % 5 == 0>
-    <div class="video-row">
+        <#if video_index % 5 == 0>
+        <#--    <div class="video-row">-->
         </#if>
         <div class="video-item" data-video-id="${video.id}">
             <div class="video-container">
-            <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
-            <video controls>
-                <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/webm">
-                Your browser does not support the video tag.
-            </video>
+                <img class="thumbnail" src="/thumbnails/${video.thumbnailStorageName}" alt="Thumbnail">
+                <video controls>
+                    <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
             <p>${video.originalName}</p>
         </div>
     </#list>
 </div>
-</div>
+
 
 
 <script src="/static/js/upload.js"></script>

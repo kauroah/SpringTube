@@ -1,49 +1,49 @@
 // Fetch user data using AJAX when the page loads
-document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function() {
     fetchUserData();
 });
 
 // Function to fetch user data using AJAX
 function fetchUserData() {
-    fetch('/profile', {
+    $.ajax({
+        url: '/profile',
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
+        contentType: 'application/json',
+        success: function(data) {
             // Populate form fields with retrieved data
-            document.getElementById('firstName').value = data.firstName;
-            document.getElementById('lastName').value = data.lastName;
-            document.getElementById('phone').value = data.phone;
-        })
-        .catch(error => {
+            $('#firstName').val(data.firstName);
+            $('#lastName').val(data.lastName);
+            $('#phone').val(data.phone);
+        },
+        error: function(error) {
             console.error('Error:', error);
-        });
+        }
+    });
 }
 
 // Handle form submission using AJAX
-document.getElementById('profileForm').addEventListener('submit', function (event) {
+$('#profileForm').submit(function(event) {
     event.preventDefault(); // Prevent default form submission
     updateProfile();
 });
 
 // Function to update profile using AJAX
 function updateProfile() {
-    const formData = new FormData(document.getElementById('profileForm'));
-    fetch('/profile/update', {
+    var formData = new FormData($('#profileForm')[0]);
+    $.ajax({
+        url: '/profile/update',
         method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
             // Handle success response
             console.log('Profile updated successfully:', data);
             // Optionally, display a success message or redirect to another page
-        })
-        .catch(error => {
+        },
+        error: function(error) {
             console.error('Error:', error);
             // Handle error response
-        });
+        }
+    });
 }

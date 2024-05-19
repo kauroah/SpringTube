@@ -91,7 +91,16 @@ button:active {
     margin-top: 20px;
     margin-bottom: 10px;
 }
+/* Other existing CSS remains unchanged */
 
+/* Adjust the original name font size and position */
+.video-item h4 {
+    font-size: 18px; /* Decrease the font size */
+    margin-top: 14px; /* Add margin to bring it down */
+    color: #fff; /* Ensure the text color is white */
+}
+
+/* Video Item Styles (for reference) */
 .video-item {
     flex: 0 0 calc(20% - 20px); /* Adjust width based on the number of videos per row */
     margin-right: 10px;
@@ -232,4 +241,82 @@ nav ul li a {
 
 #upload-form input[type="file"]:active {
     background-color: #45A29E;
+}
+
+
+
+
+
+
+
+.subscribe-button {
+    text-align: center; /* Center align text */
+}
+
+.subscribe-button p {
+    margin-bottom: 40px; /* Add some space below the channel name */
+}
+
+.subscribe-unsubscribe-container {
+    display: flex;
+    justify-content: center; /* Center align buttons horizontally */
+    gap: 10px; /* Add space between buttons */
+    align-items: center; /* Align items vertically in the center */
+}
+
+#subscribeButton, #unsubscribeButton {
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 40px;
+}
+
+#subscribeButton:hover, #unsubscribeButton:hover {
+    background-color: #000000;
+}
+
+#subscribeButton:active, #unsubscribeButton:active {
+    background-color: #45A29E;
+}
+
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.video-item {
+    width: calc(20% - 20px); /* 20% width with 20px margin */
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .video-item {
+        width: calc(33.33% - 20px); /* Adjust for smaller screens */
+    }
+}
+
+
+
+
+.comment-submit-button {
+    padding: 10px 20px;
+    background-color: #45A29E;
+    color: #fff;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    /* Add margin for spacing */
+}
+
+
+.comment-date {
+    margin-left: 290px; /* Adjust the margin as needed */
 }

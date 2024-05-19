@@ -1,9 +1,6 @@
 package org.example.springtube.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +10,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "channel")
 public class Channel {
     @Id
@@ -37,21 +35,7 @@ public class Channel {
     )
     private Set<User> followers = new HashSet<>();
 
-//    @Column(name = "subscriber_count", nullable = false)
+
     private Integer subscriberCount = 0;
 
-
-    public void subscribe() {
-        this.subscriberCount++;
-    }
-
-    public void unsubscribe() {
-        if (this.subscriberCount > 0) {
-            this.subscriberCount--;
-        }
-    }
 }
-
-
-
-

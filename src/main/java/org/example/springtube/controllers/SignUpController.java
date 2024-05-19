@@ -20,8 +20,12 @@ public class SignUpController {
 
     @PostMapping("/signUp")
     public String SignUp(UserForm form, Model model) {
-        signUpService.addUser(form);
-        model.addAttribute("email", form.getEmail());
-        return "confirm_email";
+        try {
+            signUpService.addUser(form);
+            return "redirect:/signIn";
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+            return "sign_up_page"; // Return to signup page with error message
+        }
     }
 }

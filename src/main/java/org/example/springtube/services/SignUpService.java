@@ -19,4 +19,5 @@ public interface SignUpService {
 
     void save(User user);
 
+    User getCurrentUserByEmail(String email);
 }

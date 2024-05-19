@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReactionDto {
-//    private Long videoId;
     private int numberOfLikes;
     private int numberOfDislikes;
 

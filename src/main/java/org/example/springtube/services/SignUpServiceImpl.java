@@ -1,5 +1,6 @@
 package org.example.springtube.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springtube.dto.UserForm;
 import org.example.springtube.models.enums.Role;
 import org.example.springtube.models.enums.State;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
+@Slf4j
 public class SignUpServiceImpl implements SignUpService {
 
     @Autowired
@@ -25,13 +27,18 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Autowired
     private MailService mailService;
+    @Autowired
+    private SmsService smsService;
 
     private static final Logger logger = Logger.getLogger(SignUpServiceImpl.class.getName());
 
     @Override
     public void addUser(UserForm userForm) {
+        if (userRepository.findByEmail(userForm.getEmail()).isPresent()) {
+            throw new RuntimeException("Email is already registered.");
+        }
+
         try {
-          //  String roleAsString = userForm.getRole().toString();
             User user = User.builder()
                     .email(userForm.getEmail())
                     .password(passwordEncoder.encode(userForm.getPassword()))
@@ -40,11 +47,11 @@ public class SignUpServiceImpl implements SignUpService {
                     .phone(userForm.getPhone())
                     .age(userForm.getAge())
                     .state(State.NOT_CONFIRMED)
-//                    .role(String.valueOf(roleAsString.equals("USER") ? Role.ADMIN : Role.USER))
                     .role(Role.USER)
                     .confirmCode(UUID.randomUUID().toString())
                     .build();
             userRepository.save(user);
+            smsService.sendSms(userForm.getPhone(), "You signed up!");
             mailService.sendEmailForConfirm(userForm.getEmail(), user.getConfirmCode());
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error occurred while adding user.", e);
@@ -101,7 +108,7 @@ public class SignUpServiceImpl implements SignUpService {
                 return user;
             }
         }
-        return null; // Authentication failed
+        return null;
     }
 
     @Override
@@ -112,5 +119,11 @@ public class SignUpServiceImpl implements SignUpService {
     @Override
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public User getCurrentUserByEmail(String email){
+        return userRepository.findByEmail(email).
+                orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

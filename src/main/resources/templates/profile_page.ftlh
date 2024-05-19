@@ -8,11 +8,14 @@
 </head>
 <body>
 <header>
-    <div class="logo">SpringTube</div>
+    <div class="logo">
+        <a href="/springtube" style="text-decoration: none; color: inherit;">SpringTube</a>
+    </div>
+
     <nav>
         <ul>
             <li><a href="/springtube">Home</a></li>
-            <li><a href="/updateChannel/">Update</a></li>
+            <li><a href="/contact">Contact Us</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/signOut">Sign Out</a></li>
         </ul>

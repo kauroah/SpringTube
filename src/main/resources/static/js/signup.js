@@ -1,66 +1,40 @@
-const form = document.getElementById('signup-form');
-const firstnameInput = document.getElementById('firstname');
-const lastnameInput = document.getElementById('lastName');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const age = document.getElementById('age');
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the signup form element
+    const signupForm = document.getElementById("signupForm");
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
+    // Add an event listener to handle the form submission
+    signupForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-    if (validateForm()) {
-        // Submit the form (you can replace this with your backend logic)
-        console.log('Form submitted successfully!');
-        // Clear form fields
-        form.reset();
-    }
+        // Create a FormData object from the form
+        const formData = new FormData(signupForm);
+
+        // Convert FormData to a plain object
+        const data = Object.fromEntries(formData.entries());
+
+        // Send a POST request to the server with the form data
+        fetch("/signUp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json" // Set content type to JSON
+            },
+            body: JSON.stringify(data) // Convert the data object to a JSON string
+        })
+            .then(response => response.json()) // Parse the JSON response
+            .then(data => {
+                if (data.error) {
+                    // If there is an error, display it in the error message element
+                    const errorMessageElement = document.getElementById("errorMessage");
+                    errorMessageElement.textContent = data.error;
+                } else {
+                    // If successful, redirect to the signup success page
+                    window.location.href = "/springtube";
+                }
+            })
+            .catch(error => {
+                // Handle any unexpected errors
+                const errorMessageElement = document.getElementById("errorMessage");
+                errorMessageElement.textContent = "An unexpected error occurred. Please try again.";
+            });
+    });
 });
-
-function validateForm() {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-
-    // Validate email
-    if (email === '') {
-        showError(emailInput, 'Email is required');
-        return false;
-    } else if (!isValidEmail(email)) {
-        showError(emailInput, 'Invalid email address');
-        return false;
-    }
-
-    // Validate password
-    if (password === '') {
-        showError(passwordInput, 'Password is required');
-        return false;
-    } else if (password.length < 6) {
-        showError(passwordInput, 'Password must be at least 6 characters');
-        return false;
-    }
-
-
-    // If all validations pass
-    clearError(emailInput);
-    clearError(passwordInput);
-    return true;
-}
-
-function showError(input, message) {
-    const formGroup = input.parentElement;
-    const errorMessage = formGroup.querySelector('.error-message');
-    errorMessage.textContent = message;
-    formGroup.classList.add('error');
-}
-
-function clearError(input) {
-    const formGroup = input.parentElement;
-    formGroup.classList.remove('error');
-    const errorMessage = formGroup.querySelector('.error-message');
-    errorMessage.textContent = '';
-}
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReactionRepository extends JpaRepository<Reaction, Long> {
-//    int countByVideoIdAndType(Long videoId, String name);
+    //    int countByVideoIdAndType(Long videoId, String name);
     @Query("SELECT COALESCE(SUM(r.numberOfLikes), 0) FROM Reaction r WHERE r.video.id = ?1")
     int sumLikesForVideo(Long videoId);
     @Query("SELECT COALESCE(SUM(r.numberOfDislikes), 0) FROM Reaction r WHERE r.video.id = ?1")
@@ -20,3 +20,14 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
 
     void deleteByVideoId(Long videoId);
 }
+
+
+/**
+ * Purpose:
+ * This query calculates the total number of likes for a specific video.
+ * Explanation:
+ * SELECT COALESCE(SUM(r.numberOfLikes), 0):
+ * This part of the query sums up the numberOfLikes column from the Reaction table for a given video ID.
+ * COALESCE(SUM(r.numberOfLikes), 0): The COALESCE function returns the sum if it is not null. If there are no likes (i.e., the sum is null), it returns 0 instead.
+ * FROM Reaction r WHERE r.video.id = ?1: This part specifies that the sum should be calculated for reactions associated with the given video ID (?1 is a placeholder for the method parameter videoId).
+ */

@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -15,12 +15,17 @@
 </head>
 
 <body>
-<form action="/springtube" method="get" onsubmit="return onSubmit()">
+<form action="/springtube" method="get">
     <header>
-        <div class="logo">SpringTube</div>
+        <div class="logo">
+            <a href="/springtube" style="text-decoration: none; color: inherit;">SpringTube</a>
+        </div>
+
         <div class="search-bar">
-            <input id="searchInput" type="text" name="query" placeholder="Search videos">
-            <button type="submit"><i class="fas fa-search"></i></button>
+            <form action="/springtube" method="get" onsubmit="return onSubmit()">
+                <input id="searchInput" type="text" name="query" placeholder="Search videos">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
         </div>
         <nav>
             <ul>
@@ -46,25 +51,25 @@
         <#list videos as video>
         <form action="/springtube" method="get">
             <#if video_index % 5 == 0>
-                <div class="video-row">
-            </#if>
-            <div class="video-item" data-video-id="${video.id}">
-                <div class="video-container">
-                    <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
-                    <video controls>
-                        <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/webm">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="video-actions">
-                </div>
-                <h4>${video.originalName}</h4>
+            <div class="video-row">
+                </#if>
+                <div class="video-item" data-video-id="${video.id}">
+                    <div class="video-container">
+                        <img class="thumbnail" src="${video.thumbnailUrl}" alt="Thumbnail">
+                        <video controls>
+                            <source th:src="@{'/files/' + ${video.storageFileName}}" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="video-actions">
+                    </div>
+                    <h4>${video.originalName}</h4>
 
-            </div>
-            <#if (video_index + 1) % 5 == 0 || (video_index + 1) == videos?size>
                 </div>
+                <#if (video_index + 1) % 5 == 0 || (video_index + 1) == videos?size>
+            </div>
             </#if>
-        </#list>
+            </#list>
         </form>
     </main>
 </form>

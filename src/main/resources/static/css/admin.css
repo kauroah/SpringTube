@@ -83,3 +83,39 @@ tr:nth-child(even) {
 .action-buttons form button:hover {
     background-color: #000000;
 }
+
+
+
+
+
+
+
+
+/* Pagination Styling */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #45A29E;
+    border-radius: 5px;
+    background-color: #45A29E;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+li.active {
+    background-color: #000000;
+    border: 1px solid #000000;
+}

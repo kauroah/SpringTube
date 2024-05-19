@@ -60,9 +60,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-
-
-
-
-

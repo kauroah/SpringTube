@@ -1,16 +1,22 @@
 package org.example.springtube.services;
 
+import lombok.extern.slf4j.Slf4j;
+import org.example.springtube.dto.UserDto;
 import org.example.springtube.models.enums.Role;
 import org.example.springtube.models.enums.State;
 import org.example.springtube.models.User;
 import org.example.springtube.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     //private static final int CONFIRMATION_CODE_LENGTH = 6;
@@ -75,4 +81,33 @@ public class UserServiceImpl implements UserService {
     public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+
+    @Override
+    public List<UserDto> search(Integer page, Integer size, String query, String sortParameter, String directionParameter) {
+        Sort.Direction direction = Sort.Direction.ASC;
+        Sort sort = Sort.by(direction, "id");
+
+        if (directionParameter != null) {
+            direction = Sort.Direction.fromString(directionParameter);
+        }
+
+        if (sortParameter != null) {
+            sort = Sort.by(direction, sortParameter);
+        }
+
+        if (query == null) {
+            query = "empty";
+        }
+
+        if (size == null) {
+            size = 3;
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        Page<User> usersPage = userRepository.search(query, pageRequest);
+
+        return UserDto.from(usersPage.getContent());
+    }
+
 }
