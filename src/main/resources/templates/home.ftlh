@@ -30,6 +30,7 @@
         <nav>
             <ul>
                 <li><a href="/springtube">Home</a></li>
+                <li><a href="/springtube/shorts">Shorts</a></li>
                 <#if user.role == "ADMIN">
                     <li><a href="/admin/dashboard">Admin Dashboard</a></li>
                 </#if>

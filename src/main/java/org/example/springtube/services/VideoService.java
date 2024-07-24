@@ -35,9 +35,4 @@ public interface VideoService {
 
     List<VideoDto> findVideosByChannelId(Long channelId);
 
-
-
-
-
-    // Page<Video> findAll(Pageable pageable);
 }

@@ -76,39 +76,4 @@ public class HomeController {
             return "redirect:/error";
         }
     }
-
-
-
-//    /**
-//     * Retrieves a file (video or thumbnail) and writes it to the response.
-//     *
-//     * @param fileName the name of the file to retrieve
-//     * @param response the HTTP response to write the file to
-//     */
-//    @GetMapping("/files/{file-name:.+}")
-//    public void getFile(@PathVariable("file-name") String fileName, HttpServletResponse response) {
-//        videoService.writeFileToResponse(fileName, response);
-//        // Uncomment the following lines if you need to handle thumbnails and videos differently
-//        // videoService.writeThumbnailToResponse(fileName, response);
-//        // videoService.writeFileAndThumbnailToResponse(fileName, response);
-//    }
-
-//    /**
-//     * Retrieves a thumbnail and writes it to the response.
-//     *
-//     * @param thumbnailName the name of the thumbnail to retrieve
-//     * @param response      the HTTP response to write the thumbnail to
-//     */
-
-
-    // Uncomment and adjust the following methods if needed for additional file handling
-    // @GetMapping("/files/{file-thumbnail:.+}")
-    // public void getThumbnail(@PathVariable("file-thumbnail") String fileName, HttpServletResponse response) {
-    //     videoService.writeThumbnailToResponse(fileName, response);
-    // }
-
-    // @GetMapping("/files/{file_name:.+}")
-    // public void getThumbnail(@PathVariable("file_name") String fileName, HttpServletResponse response) {
-    //     videoService.writeThumbnailToResponse(fileName, response);
-    // }
 }
